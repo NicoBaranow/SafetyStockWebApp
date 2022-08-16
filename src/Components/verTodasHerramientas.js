@@ -3,17 +3,17 @@ import Barcode from 'react-barcode';
 
 import { storage, firestore } from '../firebase/credenciales';
 import { doc, deleteDoc, getDocs, collection } from 'firebase/firestore'
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage'
+import { ref, getDownloadURL } from 'firebase/storage'
 
 import ReactToPrint from "react-to-print";
 
 import styles from './verTodasHerramientas.module.css'
 
 export default function VerHerramientas(){
-    //var pos = 0
+
     const itemsRef = useRef([])
     const [herramientas, setHerramientas] = useState([{}])
-
+    
     useEffect(()=>{
         fetchTools()
         itemsRef.current = itemsRef.current.slice(0, herramientas.length);
@@ -32,7 +32,31 @@ export default function VerHerramientas(){
         })
     }
 
+    function displayImage(codigo){
+        getDownloadURL(ref(storage, `herramientasEInsumos/${codigo}`))
+            .then((url) => {
+                const img = document.getElementById('myimg');
+                img.setAttribute('src', url);
+            })
+            .catch((error) => {
+                // A full list of error codes is available at
+                // https://firebase.google.com/docs/storage/web/handle-errors
+                switch (error.code) {
+                  case 'storage/object-not-found':
+                    // File doesn't exist
+                    break;
+                    case 'storage/unauthorized':
+                    break;
+                  case 'storage/canceled':
+                    break;
+                  case 'storage/unknown':
+                      break;
+                }
+              });
+    }
+
     const Tool = ({ tool, index }) => {
+        displayImage(tool.codigo)
         return(
             <div key={tool.codigo}>
                 <div>Nombre: {tool.nombre}</div>
@@ -48,11 +72,15 @@ export default function VerHerramientas(){
                     <Barcode 
                         key={tool.codigo}
                         ref={(el) => (itemsRef.current[index] = el)}
-                        value = {tool.codigo || ''} 
+                        value = {tool.codigo ? tool.codigo : ""}
                     />
                 </div>
-               <br/>
                 <br/>
+                <img id="myimg"></img>
+                <br/>
+                <br/>
+                <br/>
+                
             </div>
         )
     }
@@ -60,7 +88,10 @@ export default function VerHerramientas(){
 
     const Tools = () => {
         return (
-            herramientas.map((item, index) => <Tool key={item.codigo} tool={item} index={index} />)
+            herramientas.map((item, index) =>{ 
+                if(item.codigo) {
+                    return item.nombre !== 'prueba' && <Tool key={item.codigo} tool={item} index={index} />
+                }})
         )
     }
         

@@ -59,7 +59,7 @@ export default function AgregarHerramienta(props){
             .catch((error) => {
             // Handle any errors
                 console.log("error al subir la imagen",error)
-                setSuccessMessage("Error al subir la imagen")
+                setErrorMessage("Error al subir la imagen")
 
             });
     }
@@ -69,11 +69,12 @@ export default function AgregarHerramienta(props){
             .then((url) => {
                 console.log("URL recuperada", url)
                 const img = document.getElementById('myimg');
+                console.log(img)
                 img.setAttribute('src', url);
             })
             .catch((error) => {
                 console.log("error al cargar la imagen",error)
-                setSuccessMessage("Error al cargar la imagen")
+                setErrorMessage("Error al cargar la imagen")
             });
     }
 
