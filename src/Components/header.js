@@ -28,7 +28,7 @@ export default function NavBar(props){
         </div>
         <ul className='header--links'>
             <li>
-                <a href='busqueda'>Buscar</a>
+                <a href='buscar'>Buscar</a>
             </li>
         </ul>
         <a className='header--account' href='/login'>Iniciar sesión o regístrate</a>
@@ -43,7 +43,7 @@ export default function NavBar(props){
         </div>
         <ul className='header--links'>
             <li>
-                <a href='busqueda'>Buscar</a>
+                <a href='buscar'>Buscar</a>
             </li>
             <li>
                 <a href='/herramientas'>Administrar herramientas</a>
@@ -70,7 +70,7 @@ export default function NavBar(props){
         </div>
         <ul className='header--links'>
             <li>
-                <a href='busqueda'>Buscar</a>
+                <a href='buscar'>Buscar</a>
             </li>
             <li>
                 <a href='mis-herramientas'>Mis herramientas</a>

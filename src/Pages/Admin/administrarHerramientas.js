@@ -14,9 +14,8 @@ export default function HerramientasPage(props){
             <Header name = {props.name} admin = {props.admin}/>
             <h2>Agregar herramienta o insumo nuevo</h2>
             <AgregarHerramienta barcode = {props.barcode}/>
-           
             <h2>Herraminetas existentes</h2>
-            <VerHerramientas/>
+            <VerHerramientas editar = {true}/>
         </div>
     )
 }

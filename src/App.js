@@ -15,6 +15,7 @@ import Herramientas from './Pages/Admin/administrarHerramientas'
 import Profesores from './Pages/Admin/profesores';
 import Faltantes from './Pages/Admin/faltantes';
 import Historial from './Pages/Admin/historial';
+import Buscar from './Pages/search';
 
 import NotAllowed from './Components/notAllowed';
 
@@ -84,6 +85,7 @@ function App() {
                 <Route path='/' component={()=>(<Home name = {nombre} admin = {admin}/>)}></Route>
                 <Route path='/login' component={()=>(<LoginPage/>)}></Route>
                 <Route path='/signup' component={()=>(<SignupPage />)}></Route>
+                <Route path='/buscar' component={()=>(<Buscar name = {nombre} admin = {admin}/>)}></Route>
 
                     {/* Admin pages */}
             

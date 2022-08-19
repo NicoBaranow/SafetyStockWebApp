@@ -24,10 +24,11 @@ export default function Faltantes(props){
         if(faltante.cantidadIdeal < faltante.cantidad && faltante.cantidad!== ''){
             return(
                 <div key = {faltante.codigo}>
-                    <div>Nombre: {faltante.nombre}</div>
+                    <h2>{faltante.nombre}</h2>
                     <div>Categoría: {faltante.cat1} </div>
                     <div>Cantidad actual: {faltante.cantidad}</div>
                     <div>Cantidad mínima: {faltante.cantidadMinima}</div>
+                    <div>Cantidad ideal: {faltante.cantidadIdeal}</div>
                     <div>Cantidad a comprar: {faltante.cantidadIdeal - faltante.cantidad}</div>
                     <br/>
                 </div>

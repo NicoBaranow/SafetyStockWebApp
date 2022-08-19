@@ -45,7 +45,7 @@ export default function AgregarHerramienta(props){
         }
     }
     
-    function uploadImage(){
+    async function uploadImage(){
         if(imageUpload == null) {
             return setErrorMessage("No se ha seleccionado ninguna foto")
         }
@@ -81,11 +81,11 @@ export default function AgregarHerramienta(props){
     async function SubmitHandler(event){
         event.preventDefault()
         addTool()
-        uploadImage() //then calls to displayImage()
-        setSuccessMessage("Herramienta creada correctamente!")
-        setIsImage(false)
-        form.reset()
-        
+        uploadImage().then(()=>{
+            setSuccessMessage("Herramienta creada correctamente!")
+            setIsImage(false)
+            form.reset()
+        })
     }
 
     return(
