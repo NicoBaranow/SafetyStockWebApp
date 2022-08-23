@@ -16,7 +16,7 @@ import Profesores from './Pages/Admin/profesores';
 import Faltantes from './Pages/Admin/faltantes';
 import Historial from './Pages/Admin/historial';
 import Buscar from './Pages/search';
-import SingleTool from './Pages/singleProductPage'
+import SingleToolPage from './Pages/singleProductPage'
 import NotAllowed from './Components/notAllowed';
 
 import './appStyle.css'
@@ -29,7 +29,8 @@ function App() {
     const [userParams, setUserParams] = useState({})
     const [loading,setLoading] = useState(false)
     const [herramientas, setHerramientas] = useState([{}])
-    const [herramientaExiste,setHerramientaExiste] = useState(false)
+    var herramientaExiste;
+    var singleTool = {}
     var nombre = userParams.nombre
     var admin = userParams.admin
 
@@ -87,25 +88,20 @@ function App() {
         setHerramientas(toolsArray)
     };
 
-    const SingleHerramienta = () => {herramientas.map((item) =>{ 
-        const url = document.URL
-        console.log(url)
-        console.log(item)
-        
-        if(item.nombre) {
-            console.log(item.nombre.toLowerCase())
-            if(url.includes()) {
-                console.log(true)
-                setHerramientaExiste(true)
-            }
-            else {
-                console.log("El nombre de la herramienta no esta en la URL")
-                setHerramientaExiste(false)
-            }
-        }
-    })}
+    const SingleHerramienta = () => { 
+        if(herramientas) {
+            for(var i=0; i<herramientas.length;i++){
+                const url = document.URL
+                const toolName = herramientas[i].nombre.toLowerCase().replaceAll(" ", "%20")
+                if(window.location.href.indexOf(herramientas[i].nombre) > -1) {
+                    herramientaExiste = true
+                    singleTool = herramientas[i]
+                    break
+                }
+                
+        }}
 
-    
+    }
 
     return (
         <div className='body'>
@@ -116,8 +112,9 @@ function App() {
                 <Route path='/login' component={()=>(<LoginPage/>)}></Route>
                 <Route path='/signup' component={()=>(<SignupPage />)}></Route>
                 <Route path='/buscar' component={()=>(<Buscar name = {nombre} admin = {admin}/>)}></Route>
-                {herramientaExiste && <Route component={()=>admin ? (<SingleTool name = {nombre} admin = {admin} barcode = {scanned}/>) : <NotAllowed />}></Route>}
-                    {/* Admin pages */}
+                {herramientaExiste && <Route component={()=>(<SingleToolPage name = {nombre} admin = {admin} tool = {singleTool}/>)}></Route>}
+                
+                {/* Admin pages */}
             
                 <Route 
                     path={'/herramientas'} 

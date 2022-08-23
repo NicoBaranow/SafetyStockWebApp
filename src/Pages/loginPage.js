@@ -26,6 +26,8 @@ export default function NavBar(){
             if(error.code === 'auth/wrong-password') setErrorMessage("contraseña incorrecta")
             if(error.code === 'auth/user-not-found') setErrorMessage("el usuario no está registrado")            
             if(error.code === 'auth/invalid-email') setErrorMessage("el email o la contraseña son inválidos")
+            if(error.code === '(auth/network-request-failed') setErrorMessage("Error de conexión, revise su red")
+
         })
   }
 

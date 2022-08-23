@@ -1,11 +1,8 @@
 import { React, useState, useEffect, useRef } from 'react';
-import Barcode from 'react-barcode';
-
 import { firestore } from '../firebase/credenciales';
 import { doc, deleteDoc, getDocs, collection } from 'firebase/firestore'
-
+import Barcode from 'react-barcode';
 import ReactToPrint from "react-to-print";
-
 import styles from './verTodasHerramientas.module.css'
 
 export default function VerHerramientas(props){
