@@ -3,7 +3,7 @@ import Header from '../Components/header'
 
 export default function SingleTool(props){
 
-    const tool = {
+    const tools = {
         nombre: props.tool.nombre,
         cantidad: props.cantidad,
         cantMin: props.cantidadMinima,
@@ -14,12 +14,11 @@ export default function SingleTool(props){
         codigo: props.codigo,
         ubicacion: props.ubicacion
     }
-
     return(
         <div>
             <Header name = {props.name} admin = {props.admin}/>
             <div>
-                <h1>{tool.nombre}</h1>
+                <h1>{tools.nombre}</h1>
             </div>
 
         </div>

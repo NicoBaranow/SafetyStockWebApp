@@ -28,8 +28,8 @@ function App() {
 
     const [userParams, setUserParams] = useState({})
     const [loading,setLoading] = useState(false)
-    const [herramientas, setHerramientas] = useState([{}])
-    var herramientaExiste;
+    const [herramientas, setHerramientas] = useState([])
+    const [urlCoincide, setUrlCoincide] = useState(false)
     var singleTool = {}
     var nombre = userParams.nombre
     var admin = userParams.admin
@@ -88,19 +88,19 @@ function App() {
         setHerramientas(toolsArray)
     };
 
-    const SingleHerramienta = () => { 
-        if(herramientas) {
-            for(var i=0; i<herramientas.length;i++){
-                const url = document.URL
-                const toolName = herramientas[i].nombre.toLowerCase().replaceAll(" ", "%20")
-                if(window.location.href.indexOf(herramientas[i].nombre) > -1) {
-                    herramientaExiste = true
-                    singleTool = herramientas[i]
-                    break
-                }
-                
-        }}
-
+    const SingleHerramienta = () => {
+        // return(
+        //     herramientas.map((tool)=>{
+        //             if(tool.nombre && urlCoincide!==true){
+        //             const nombre = tool.nombre.toLowerCase().replaceAll(' ',"%20")
+        //             if(window.location.href.indexOf(nombre)) {
+        //                 setUrlCoincide(true)
+        //                 const singleTool = tool
+        //             }      
+        //             else setUrlCoincide(false)  
+        //         }
+        //     })
+        // )
     }
 
     return (
@@ -112,7 +112,7 @@ function App() {
                 <Route path='/login' component={()=>(<LoginPage/>)}></Route>
                 <Route path='/signup' component={()=>(<SignupPage />)}></Route>
                 <Route path='/buscar' component={()=>(<Buscar name = {nombre} admin = {admin}/>)}></Route>
-                {herramientaExiste && <Route component={()=>(<SingleToolPage name = {nombre} admin = {admin} tool = {singleTool}/>)}></Route>}
+                {urlCoincide && <Route component={()=>(<SingleToolPage name = {nombre} admin = {admin} tool = {singleTool}/>)}></Route>}
                 
                 {/* Admin pages */}
             
