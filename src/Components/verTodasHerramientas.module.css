@@ -1,3 +1,9 @@
 .barcode{
 	display: none;
 }
+
+.toolLink{
+	color: white;
+	text-decoration: none;
+	text-decoration: underline;
+}

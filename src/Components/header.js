@@ -23,7 +23,7 @@ export default function NavBar(props){
     const InvitedHeader = (
         <div className='header'>
         <div className='header--titleLogo'>
-            <h2 className='header--title'>Safety Stock</h2>
+            <a href = '/' className='header--title'> <h2>Safety Stock</h2></a>
             {/* <img className='header--logo' src='' alt='Logo'></img> */}
         </div>
         <ul className='header--links'>
@@ -38,7 +38,7 @@ export default function NavBar(props){
     const AdminHeader = (
     <header className='header'>
         <div className='header--titleLogo'>
-            <h2 className='header--title'>Safety Stock</h2>
+            <a href = '/' className='header--title'> <h2>Safety Stock</h2></a>
             {/* <img className='header--logo' src='' alt='Logo'></img> */}
         </div>
         <ul className='header--links'>
@@ -55,7 +55,7 @@ export default function NavBar(props){
                 <a href='faltantes'>Faltantes</a>
             </li>
             <li>
-                <a href='Historial'>Historial</a>
+                <a href='historial'>Historial</a>
             </li>
         </ul>
         <p className='header--account' onClick={cerrarSesion}>{user && `Cerrar sesion de ${props.name}`}</p>
@@ -65,7 +65,7 @@ export default function NavBar(props){
     const UserHeader = (
     <div className='header'>
         <div className='header--titleLogo'>
-            <h2 className='header--title'>Safety Stock</h2>
+            <a href = '/' className='header--title'> <h2>Safety Stock</h2></a>
             {/* <img className='header--logo' src='' alt='Logo'></img> */}
         </div>
         <ul className='header--links'>

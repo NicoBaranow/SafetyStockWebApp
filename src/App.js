@@ -4,7 +4,7 @@ import { Route,Switch } from "wouter";
 
 import { auth, firestore} from './firebase/credenciales'
 import { onAuthStateChanged } from 'firebase/auth';
-import {  doc, getDoc } from 'firebase/firestore';
+import { doc, getDocs, getDoc, collection } from 'firebase/firestore'
 
 import Home from './Pages/homePage'
 import LoginPage from './Pages/loginPage'
@@ -16,7 +16,7 @@ import Profesores from './Pages/Admin/profesores';
 import Faltantes from './Pages/Admin/faltantes';
 import Historial from './Pages/Admin/historial';
 import Buscar from './Pages/search';
-
+import SingleTool from './Pages/singleProductPage'
 import NotAllowed from './Components/notAllowed';
 
 import './appStyle.css'
@@ -28,6 +28,8 @@ function App() {
 
     const [userParams, setUserParams] = useState({})
     const [loading,setLoading] = useState(false)
+    const [herramientas, setHerramientas] = useState([{}])
+    const [herramientaExiste,setHerramientaExiste] = useState(false)
     var nombre = userParams.nombre
     var admin = userParams.admin
 
@@ -51,6 +53,7 @@ function App() {
     },[pathname])
 
     useEffect(()=>{
+        fetchTools()
         onAuthStateChanged(auth, (user)=>{
             if (user){
                 getParams(user.uid).then((crudeParams)=> {
@@ -78,15 +81,42 @@ function App() {
         setScanned(scannedBarcode)
     }
 
+    const fetchTools = async ()=>{
+        const {docs} = await getDocs(collection(firestore, "herramientasInsumos"))
+        const toolsArray = docs.map(tool =>({...tool.data()}))
+        setHerramientas(toolsArray)
+    };
+
+    const SingleHerramienta = () => {herramientas.map((item) =>{ 
+        const url = document.URL
+        console.log(url)
+        console.log(item)
+        
+        if(item.nombre) {
+            console.log(item.nombre.toLowerCase())
+            if(url.includes()) {
+                console.log(true)
+                setHerramientaExiste(true)
+            }
+            else {
+                console.log("El nombre de la herramienta no esta en la URL")
+                setHerramientaExiste(false)
+            }
+        }
+    })}
+
+    
+
     return (
         <div className='body'>
+            <SingleHerramienta/>
             {loading && (pathname!=='/signup' && pathname!=='/login') ? <Loading/>:
             <Switch>
                 <Route path='/' component={()=>(<Home name = {nombre} admin = {admin}/>)}></Route>
                 <Route path='/login' component={()=>(<LoginPage/>)}></Route>
                 <Route path='/signup' component={()=>(<SignupPage />)}></Route>
                 <Route path='/buscar' component={()=>(<Buscar name = {nombre} admin = {admin}/>)}></Route>
-
+                {herramientaExiste && <Route component={()=>admin ? (<SingleTool name = {nombre} admin = {admin} barcode = {scanned}/>) : <NotAllowed />}></Route>}
                     {/* Admin pages */}
             
                 <Route 

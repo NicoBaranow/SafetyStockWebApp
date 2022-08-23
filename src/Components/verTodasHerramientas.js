@@ -38,7 +38,7 @@ export default function VerHerramientas(props){
     const Tool = ({ tool, index }) => {
         if(tool.nombre.toLowerCase().includes(filtroNombre.toLowerCase())) return(
             <div key={tool.codigo}>
-                <div><h2>{tool.nombre}</h2></div>
+                <a href={tool.nombre.toLowerCase()} className={styles.toolLink}><h2>{tool.nombre}</h2></a>
                 <p>Categoría: {tool.cat1 +', '+ tool.cat2}</p>
                 <p>Ubicación: {tool.ubicacion}</p>
                 <p>Cantidad:    {tool.cantidad}</p>
