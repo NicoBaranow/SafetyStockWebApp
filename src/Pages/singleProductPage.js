@@ -1,24 +1,14 @@
 import {React,useState} from 'react';
 import Header from '../Components/header'
 
-export default function SingleTool(props){
-
-    const tools = {
-        nombre: props.tool.nombre,
-        cantidad: props.cantidad,
-        cantMin: props.cantidadMinima,
-        cantIdeal: props.cantidadIdeal,
-        cat1: props.cat1,
-        cat2: props.cat2,
-        cat3: props.cat3,
-        codigo: props.codigo,
-        ubicacion: props.ubicacion
-    }
+export default function SingleTool({headerName, admin, tool}){
+    
     return(
         <div>
-            <Header name = {props.name} admin = {props.admin}/>
+            <Header name = {headerName} admin = {admin}/>
             <div>
-                <h1>{tools.nombre}</h1>
+                <h1>{tool.nombre}</h1>
+                <h3>Cantidad actual: {tool.cantidad}</h3>
             </div>
 
         </div>

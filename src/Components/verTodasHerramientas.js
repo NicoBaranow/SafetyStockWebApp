@@ -65,8 +65,6 @@ export default function VerHerramientas(props){
     const Tools = () => {
         return (
             herramientas.map((item, index) =>{ 
-                console.log(herramientas)
-                console.log(item)
                 if(item.codigo) {
                     return item.nombre !== 'prueba' && <Tool key={item.codigo} tool={item} index={index} />
                 }})

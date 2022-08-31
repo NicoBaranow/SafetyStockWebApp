@@ -1,4 +1,3 @@
-
 import React, { useState,useEffect } from 'react';
 import { Route,Switch } from "wouter";
 
@@ -30,7 +29,7 @@ function App() {
     const [loading,setLoading] = useState(false)
     const [herramientas, setHerramientas] = useState([])
     const [urlCoincide, setUrlCoincide] = useState(false)
-    var singleTool = {}
+    const [singleTool, setSingleTool] = useState({})
     var nombre = userParams.nombre
     var admin = userParams.admin
 
@@ -54,7 +53,9 @@ function App() {
     },[pathname])
 
     useEffect(()=>{
-        fetchTools()
+        fetchTools().then(()=>{
+            SingleHerramienta()
+        })
         onAuthStateChanged(auth, (user)=>{
             if (user){
                 getParams(user.uid).then((crudeParams)=> {
@@ -89,19 +90,20 @@ function App() {
     };
 
     const SingleHerramienta = () => {
-        // return(
-        //     herramientas.map((tool)=>{
-        //             if(tool.nombre && urlCoincide!==true){
-        //             const nombre = tool.nombre.toLowerCase().replaceAll(' ',"%20")
-        //             if(window.location.href.indexOf(nombre)) {
-        //                 setUrlCoincide(true)
-        //                 const singleTool = tool
-        //             }      
-        //             else setUrlCoincide(false)  
-        //         }
-        //     })
-        // )
+        return( 
+            herramientas.map((item)=>{
+                if(item.nombre && urlCoincide!==true){
+                const nombre = item.nombre.toLowerCase().replaceAll(' ',"%20")
+                    if(window.location.href.indexOf(nombre)>-1) {
+                        setUrlCoincide(true)
+                        setSingleTool(item)
+                    }      
+                }
+            })
+        )
+
     }
+
 
     return (
         <div className='body'>
@@ -112,7 +114,7 @@ function App() {
                 <Route path='/login' component={()=>(<LoginPage/>)}></Route>
                 <Route path='/signup' component={()=>(<SignupPage />)}></Route>
                 <Route path='/buscar' component={()=>(<Buscar name = {nombre} admin = {admin}/>)}></Route>
-                {urlCoincide && <Route component={()=>(<SingleToolPage name = {nombre} admin = {admin} tool = {singleTool}/>)}></Route>}
+                {urlCoincide===true && <Route component={()=>(<SingleToolPage headerName = {nombre} admin = {admin} tool = {singleTool}/>)}></Route>}
                 
                 {/* Admin pages */}
             
@@ -133,7 +135,7 @@ function App() {
                     component={()=>admin ? (<Historial name = {nombre} admin = {admin}/>) : <NotAllowed />}
                 ></Route>
                 
-                <Route >{()=>(<Page404/>)}</Route>
+                {urlCoincide===false && <Route >{()=>(<Page404/>)}</Route>}
             </Switch>
             }
         </div>
