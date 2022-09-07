@@ -20,7 +20,6 @@ export default function AgregarHerramienta(props){
     const [cat2,setCat2] = useState('')
     const [cat3,setCat3] = useState('')
     const [imageUpload, setImageUpload] = useState(null)
-    const [isImage, setIsImage] = useState(false)
     const [errorMessage, setErrorMessage] = useState('')
     const [successMessage, setSuccessMessage] = useState('')
 
@@ -53,8 +52,6 @@ export default function AgregarHerramienta(props){
         uploadBytes(imageRef, imageUpload)
             .then((img) => {
                 console.log("imagen cargada correctamente", img)
-                setIsImage(true)
-                displayImage()
             })
             .catch((error) => {
             // Handle any errors
@@ -64,26 +61,11 @@ export default function AgregarHerramienta(props){
             });
     }
 
-    function displayImage(){
-        getDownloadURL(ref(storage, `herramientasEInsumos/${codigo}`))
-            .then((url) => {
-                console.log("URL recuperada", url)
-                const img = document.getElementById('myimg');
-                console.log(img)
-                img.setAttribute('src', url);
-            })
-            .catch((error) => {
-                console.log("error al cargar la imagen",error)
-                setErrorMessage("Error al cargar la imagen")
-            });
-    }
-
     async function SubmitHandler(event){
         event.preventDefault()
         addTool()
         uploadImage().then(()=>{
             setSuccessMessage("Herramienta creada correctamente!")
-            setIsImage(false)
             form.reset()
         })
     }
@@ -186,8 +168,6 @@ export default function AgregarHerramienta(props){
             <br/>
             {errorMessage ? <div>{errorMessage}</div> : <span>{successMessage}</span>}
             <br/>
-            <br/>
-            {isImage && <img id="myimg"></img>}
         </div>
     )
 

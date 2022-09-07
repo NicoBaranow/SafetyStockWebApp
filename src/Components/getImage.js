@@ -1,46 +1,38 @@
 
-import { React } from 'react';
+import { React, useState } from 'react';
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
 
-export default function getImage(props){
+export default function GetImage(props){
 
     const codigo = props.codigo
-    function Image (url) {
-        console.log(url)
-        return(
-            <div>
-                <img alt = "No image" src={url} className = "toolImage"></img>
-            </div>
-        )
+    
+    const [url,setUrl] = useState()
+    
+    const fetchImage = async () =>{
+        const storage = getStorage();
+        getDownloadURL(ref(storage,`herramientasEInsumos/${codigo}`))
+            //when image url is ready
+        .then((url) => setUrl(url))
+
+        .catch((error) => {
+            // Handle any errors
+            console.log('Ha habido un error al mostrar la imagen: '+ error)
+        });
     }
 
-    const NoImage = () => { 
+    function Image () {
         return(
             <div>
-                <h3>No hay imagen para esta herramienta</h3>
+                <img alt = "" src={url} className = "toolImage"></img>
             </div>
         )
     }
 
     const ToolImage = () =>{
-
-        const storage = getStorage();
-        getDownloadURL(ref(storage,`herramientasEInsumos/${codigo}`))
-        .then((url) => {
-            // `url` is the download URL for the tool
-            return Image(url)
-
-        })
-        .catch((error) => {
-            // Handle any errors
-            console.log('Ha habido un error al mostrar la imagen: '+ error)
-            return <NoImage/>
-        });
+        fetchImage()
+        return Image()
     }
 
+    return <ToolImage/>
 
-    return(
-        <ToolImage/>
-        
-    ) 
   }
