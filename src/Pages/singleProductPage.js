@@ -1,9 +1,9 @@
 import {React,useState} from 'react';
 import Header from '../Components/header'
 import ToolImage from '../Components/getImage'
+import EditTool from '../Components/editTool'
 
 export default function SingleTool({headerName, admin, tool}){
-    console.log(tool)
     return(
         <div>
             <Header name = {headerName} admin = {admin}/>
@@ -18,6 +18,7 @@ export default function SingleTool({headerName, admin, tool}){
                 <h3>Ubicación: {tool.ubicacion}</h3>
                 
                 <ToolImage codigo = {tool.codigo}/>
+                <EditTool codigo = {tool.codigo}/>
             </div>
 
         </div>
