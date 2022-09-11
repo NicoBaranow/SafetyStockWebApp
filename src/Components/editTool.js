@@ -1,11 +1,12 @@
 import {React, useState, useEffect} from "react"
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { firestore } from '../firebase/credenciales';
-
+import { useLocation } from 'wouter';
 
 export default function EditTool(props){
 
     const codigo = props.codigo
+    const [, setLocation] = useLocation();
     const [editar, setEditar] = useState(false)
     const [toolInfo, setToolInfo] = useState({})
     const [editCategory, setEditCategory] = useState()
@@ -23,27 +24,37 @@ export default function EditTool(props){
     }
 
     const updateToolDoc = async () =>{
-        const docRef = doc(firestore, "cities", "DC");
+        const docRef = doc(firestore, "herramientasInsumos", codigo);
+        const newUrl = editValue.toLowerCase().replaceAll(' ',"%20")
+        console.log("La URL nueva es " + newUrl)
         await updateDoc(docRef, {
-        editCategory: editValue
-        }).then(()=>{
+            [editCategory]: editValue
+        })
+        .then(()=>{
             console.log("Edicion completa")
-        });
+            if(editCategory === 'nombre') setLocation(`${newUrl}`)
+            window.location.reload();
+        })
+        .catch(error=>{
+            console.log("Ha habido un error al cargar la informacion " + error)
+        })
     }
 
-    const handleEdit = () =>{
+    const handleEdit = (e) =>{
+        e.preventDefault()
         updateToolDoc()
     }
 
-    const Edit = () =>{
-
-        return (
-            <div>
-                <button onClick={()=>setEditar((value)=>!value)}>Editar herramienta</button>
-                {editar && (
+    return(
+        <div>
+            <button onClick={()=>setEditar((value)=>!value)}>Editar herramienta</button>
+            {editar && (
                     <div>
                         <form onSubmit={handleEdit}>
-                            <select name="editCategory" onChange={(e)=>{setEditCategory(e.target.value)}}>
+                            <select 
+                                name="editCategory" 
+                                onChange={(e)=>{setEditCategory(e.target.value)}}
+                                value = {editCategory}>
                                 <option value='none'>Seleccionar categria</option>
                                 {Object.keys(toolInfo).map((e)=>{
                                     return(
@@ -51,16 +62,15 @@ export default function EditTool(props){
                                         )
                                     })}
                             </select>
-                            <input type = 'text' required = {true} onChange={(e) =>{setEditValue(e.target.value)}}/>
-                            <button type="submit">Editar herramienta</button>
+                            <input 
+                                type = "text"
+                                required = {true} 
+                                onChange={(e)=>{setEditValue(e.target.value)}}
+                            />
+                            <input type="submit" value="Editar herramienta"/>
                         </form>
                     </div>
                 )}
-            </div>
-        )
-    }
-
-    return(
-        <Edit/>
+        </div>
     )
 }

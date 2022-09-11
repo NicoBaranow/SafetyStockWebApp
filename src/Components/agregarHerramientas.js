@@ -2,7 +2,7 @@ import { React, useState } from 'react';
 
 import { storage, firestore } from '../firebase/credenciales';
 import { doc, setDoc } from 'firebase/firestore'
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage'
+import { ref, uploadBytes } from 'firebase/storage'
 
 import { subcategorias } from '../data/data';
 
