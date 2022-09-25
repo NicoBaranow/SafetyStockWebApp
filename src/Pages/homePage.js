@@ -7,7 +7,6 @@ export default function navBar(props){
         <div>
             <Header name = {props.name} admin = {props.admin}/>
             <h1>Homepage</h1>
-            {props.isScanned && <div>Item escaneado!</div>}
         </div>
         
     )

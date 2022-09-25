@@ -6,10 +6,10 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { doc, getDocs, getDoc, collection } from 'firebase/firestore'
 
 import Home from './Pages/homePage'
+import AdminHome from './Pages/Admin/adminHomePage'
 import LoginPage from './Pages/loginPage'
 import SignupPage from './Pages/signupPage'
 import Page404 from './Pages/Page404'
-import Loading from './Pages/loading'
 import Herramientas from './Pages/Admin/administrarHerramientas'
 import Profesores from './Pages/Admin/profesores';
 import Faltantes from './Pages/Admin/faltantes';
@@ -17,7 +17,6 @@ import Historial from './Pages/Admin/historial';
 import Buscar from './Pages/search';
 import SingleToolPage from './Pages/singleProductPage'
 import NotAllowed from './Components/notAllowed';
-
 import './appStyle.css'
  
 
@@ -26,7 +25,6 @@ function App() {
     var pathname = window.location.pathname
 
     const [userParams, setUserParams] = useState({})
-    const [loading,setLoading] = useState(false)
     const [herramientas, setHerramientas] = useState([])
     const [urlCoincide, setUrlCoincide] = useState(false)
     const [singleTool, setSingleTool] = useState({})
@@ -45,12 +43,6 @@ function App() {
         return ((await docSnap).data())
     }
 
-    useEffect(()=>{
-        setLoading(true)
-        setTimeout(()=>{
-            setLoading(false)
-        },2000)
-    },[pathname])
 
     useEffect(()=>{
         fetchTools().then(()=>{
@@ -108,16 +100,15 @@ function App() {
     return (
         <div className='body'>
             <SingleHerramienta/>
-            {loading && (pathname!=='/signup' && pathname!=='/login') ? <Loading/>:
             <Switch>
-                <Route path='/' component={()=>(<Home name = {nombre} admin = {admin}/>)}></Route>
+                <Route path='/' component={()=>admin ? (<AdminHome name = {nombre} admin = {admin}/>):(<Home name = {nombre} admin = {admin}/>)}></Route>
                 <Route path='/login' component={()=>(<LoginPage/>)}></Route>
                 <Route path='/signup' component={()=>(<SignupPage />)}></Route>
                 <Route path='/buscar' component={()=>(<Buscar name = {nombre} admin = {admin}/>)}></Route>
                 {urlCoincide===true && <Route component={()=>(<SingleToolPage headerName = {nombre} admin = {admin} tool = {singleTool}/>)}></Route>}
                 
                 {/* Admin pages */}
-            
+
                 <Route 
                     path={'/herramientas'} 
                     component={()=>admin ? (<Herramientas name = {nombre} admin = {admin} barcode = {scanned}/>) : <NotAllowed />}
@@ -137,7 +128,7 @@ function App() {
                 
                 {urlCoincide===false && <Route >{()=>(<Page404/>)}</Route>}
             </Switch>
-            }
+            
         </div>
     );
 }

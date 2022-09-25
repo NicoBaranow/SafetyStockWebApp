@@ -44,7 +44,7 @@ export default function EditTool(props){
         e.preventDefault()
         updateToolDoc()
     }
-
+console.log(toolInfo)
     return(
         <div>
             <button onClick={()=>setEditar((value)=>!value)}>Editar herramienta</button>
@@ -58,7 +58,17 @@ export default function EditTool(props){
                                 <option value='none'>Seleccionar categria</option>
                                 {Object.keys(toolInfo).map((e)=>{
                                     return(
-                                        <option key={e} value={e}>{e}</option>    
+                                        <option key={e} value={e}>
+                                            {e==='nombre' && 'Nombre'}
+                                            {e==='ubicacion' && 'Ubicación'}
+                                            {e==='cat1' && 'Categoria'}
+                                            {e==='cat2' && 'Subcategoría'}
+                                            {e==='cat3' && 'Segunad Subcategoría'}
+                                            {e==='cantidad' && 'Cantidad'}
+                                            {e==='cantidadIdeal' && 'Cantidad Ideal'}
+                                            {e==='cantidadMinima' && 'Cantidad mínima'}
+                                            {e==='codigo' && 'Código'}
+                                        </option>    
                                         )
                                     })}
                             </select>
