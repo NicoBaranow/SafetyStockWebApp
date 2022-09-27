@@ -22,7 +22,6 @@ import './appStyle.css'
 
 function App() {
     
-    var pathname = window.location.pathname
 
     const [userParams, setUserParams] = useState({})
     const [herramientas, setHerramientas] = useState([])
