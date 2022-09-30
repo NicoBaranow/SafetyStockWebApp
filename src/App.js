@@ -30,10 +30,6 @@ function App() {
     var nombre = userParams.nombre
     var admin = userParams.admin
 
-    const [scanned, setScanned] = useState('')
-    var barcode = ''
-    var interval;
-
     async function getParams(uid){
         ///Busca la informacion especifica de un documento dentro de /usuarios/ con un UID especifico 
         ///retornando los datos del profesor 
@@ -57,23 +53,6 @@ function App() {
         })
     },[])
     
-    document.addEventListener('keydown',(event)=>{
-        ///Lee constantemenete codigos de barras
-        
-        if (interval) clearInterval(interval);
-        if(event.code === 'Enter'){
-            if(barcode) handleBarcode(barcode)
-            barcode = ''
-            return;
-        }
-        if (event.key !=='Shift') barcode+= event.key
-        interval = setInterval(()=> barcode= '', 20);
-    })
-
-    function handleBarcode(scannedBarcode){
-        setScanned(scannedBarcode)
-    }
-
     const fetchTools = async ()=>{
         const {docs} = await getDocs(collection(firestore, "herramientasInsumos"))
         const toolsArray = docs.map(tool =>({...tool.data()}))
@@ -110,7 +89,7 @@ function App() {
 
                 <Route 
                     path={'/herramientas'} 
-                    component={()=>admin ? (<Herramientas name = {nombre} admin = {admin} barcode = {scanned}/>) : <NotAllowed />}
+                    component={()=>admin ? (<Herramientas name = {nombre} admin = {admin} />) : <NotAllowed />}
                 ></Route>
                 <Route 
                     path={'/profesores'} 

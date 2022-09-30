@@ -19,7 +19,7 @@ export default function Profesores(props){
         const usersArray = docs.map(singleUser =>({uid: singleUser.id, ...singleUser.data()}))
         setUsers(usersArray)
     };
-
+    
     function handleClick(uid){
         deleteDoc (doc(firestore,'usuarios',uid))
         .then((data)=> {
@@ -34,7 +34,7 @@ export default function Profesores(props){
                 <div>{'Email del profesor: ' + user.email}</div>
                 <div>{`¿Es administrador?:  ${user.admin ? 'Si' : 'No'} `}</div>
                 {currentUser.uid !== user.uid && <button onClick = {()=>handleClick(user.uid)} >Eliminar usuario</button>}
-                 <br/>
+                <br/>
                 <br/>
                 <br/>
             </div>
