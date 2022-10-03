@@ -1,10 +1,10 @@
 import {React, useState, useEffect} from "react"
 import { firestore } from '../firebase/credenciales';
-import { collection, getDocs  } from 'firebase/firestore';
+import { collection, getDocs, getDoc, doc  } from 'firebase/firestore';
 
 export default function HerramientaEscaneada(){
 
-    const [scanned, setScanned] = useState()
+    const [scanned, setScanned] = useState('')
     const [profesor, setProfesor] = useState()
     const [users, setUsers] = useState([])
     const [historial, setHistorial] = useState([])
@@ -25,10 +25,32 @@ export default function HerramientaEscaneada(){
         setUsers(usersArray)
     };
 
-    function handleBarcode(scannedBarcode){
-        setScanned((prevValue)=>{
-            return scannedBarcode
+    const fetchTools = async (id)=>{
+        const docRef = doc(firestore, "herramientasInsumos", id)
+        getDoc(docRef)
+        .then((doc)=>{
+            setHerramienta(doc)
         })
+    };
+
+
+    const ScannedTools = () =>{
+        scanned.map((singleCode)=>{
+            fetchTools(singleCode).then(()=>{
+                console.log(herramientaTomada)
+                // return(
+                    
+                // )
+            })
+        })
+
+
+
+
+    }
+
+    function handleBarcode(scannedBarcode){
+        setScanned((prevValue)=> [...prevValue, scannedBarcode])
     }
 
     function handleSubmit(){
@@ -37,14 +59,9 @@ export default function HerramientaEscaneada(){
             [ ...prevHistorial, 
                 {
                     nombre: profesor
-                    [
-                        //construir objeto y luego agregarlo al array con .push va a ser más fácil
-                        {
-                            herramienta: herramientaTomada,
-                            cantidad: cantidadTomada,
-                            codigo: codigoHerramienta
-                        }
-                    ]   
+                    // [
+                    //     //construir objeto y luego agregarlo al array con .push va a ser más fácil
+                    // ]   
                 }
             ] 
         )})
@@ -80,6 +97,7 @@ export default function HerramientaEscaneada(){
                 </select>
                 <br/>
                 <br/>
+                <ScannedTools/>
                 {scanned}
                 <br/>
                 <br/>
