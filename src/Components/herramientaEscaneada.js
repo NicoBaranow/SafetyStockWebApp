@@ -11,47 +11,62 @@ export default function HerramientaEscaneada(){
     const [herramientaTomada, setHerramienta] = useState([])
     const [cantidadTomada, setCantidad] = useState([])
     const [codigoHerramienta, setCodigoHeramienta] = useState([])
-
-    var barcode = ''
-    var interval;
+    
+    let code = "";
+    let reading = false;
     
     useEffect(()=>{
         fetchUsers()
     },[])
     
+    document.addEventListener('keypress', e => {
+      //usually scanners throw an 'Enter' key at the end of read
+        if (e.keyCode === 13) {
+            if(code.length > 10) {
+                setScanned((prevValue)=> [...prevValue, code])             
+                console.log(scanned);
+                code = "";
+            }
+        } else {
+            code += e.key; //while this is not an 'enter' it stores the every key            
+        }
+    
+        //run a timeout of 200ms at the first read and clear everything
+        if(!reading) {
+            reading = true;
+            setTimeout(() => {
+                code = "";
+                reading = false;
+            }, 200);  //200 works fine for me but you can adjust it
+        }
+    });
+
+
     const fetchUsers = async ()=>{
         const {docs} = await getDocs(collection(firestore, "usuarios"));
         const usersArray = docs.map(singleUser =>({uid: singleUser.id, ...singleUser.data()}))
         setUsers(usersArray)
     };
 
-    const fetchTools = async (id)=>{
-        const docRef = doc(firestore, "herramientasInsumos", id)
-        getDoc(docRef)
-        .then((doc)=>{
-            setHerramienta(doc)
-        })
-    };
+    // const fetchTools = async (id)=>{
+    //     const docRef = doc(firestore, "herramientasInsumos", id)
+    //     getDoc(docRef)
+    //     .then((doc)=>{
+    //         console.log(doc)
+    //     })
+    // };
 
+    // const ScannedTools = () =>{
+    //     scanned.map((singleCode)=>{
+    //         fetchTools(singleCode).then(()=>{
+    //             console.log(herramientaTomada)
+    //             // return(
 
-    const ScannedTools = () =>{
-        scanned.map((singleCode)=>{
-            fetchTools(singleCode).then(()=>{
-                console.log(herramientaTomada)
-                // return(
-                    
-                // )
-            })
-        })
+    //             // )
+    //         })
+    //     })
+    // }
 
-
-
-
-    }
-
-    function handleBarcode(scannedBarcode){
-        setScanned((prevValue)=> [...prevValue, scannedBarcode])
-    }
 
     function handleSubmit(){
         setScanned()
@@ -66,18 +81,6 @@ export default function HerramientaEscaneada(){
             ] 
         )})
     }
-
-    document.addEventListener('keydown',(event)=>{
-        if (interval) clearInterval(interval);
-        if(event.code === 'Enter'){
-            if(barcode) handleBarcode(barcode)
-            barcode = ''
-            return;
-        }
-
-        if (event.key !=='Shift') barcode+= event.key
-        interval = setInterval(()=> barcode= '', 20);
-    })
 
     return(
         <div>
@@ -97,7 +100,7 @@ export default function HerramientaEscaneada(){
                 </select>
                 <br/>
                 <br/>
-                <ScannedTools/>
+                {/* <ScannedTools/> */}
                 {scanned}
                 <br/>
                 <br/>
