@@ -1,6 +1,8 @@
 import {React, useState, useEffect} from "react"
 import { firestore } from '../firebase/credenciales';
 import { collection, getDocs, getDoc, doc  } from 'firebase/firestore';
+import BarcodeReader from 'react-barcode-reader'
+
 
 export default function HerramientaEscaneada(){
 
@@ -8,39 +10,14 @@ export default function HerramientaEscaneada(){
     const [profesor, setProfesor] = useState()
     const [users, setUsers] = useState([])
     const [historial, setHistorial] = useState([])
-    const [herramientaTomada, setHerramienta] = useState([])
+    const [allTools, setTools] = useState([])
     const [cantidadTomada, setCantidad] = useState([])
     const [codigoHerramienta, setCodigoHeramienta] = useState([])
     
-    let code = "";
-    let reading = false;
-    
     useEffect(()=>{
         fetchUsers()
+        fetchTools()
     },[])
-    
-    document.addEventListener('keypress', e => {
-      //usually scanners throw an 'Enter' key at the end of read
-        if (e.keyCode === 13) {
-            if(code.length > 10) {
-                setScanned((prevValue)=> [...prevValue, code])             
-                console.log(scanned);
-                code = "";
-            }
-        } else {
-            code += e.key; //while this is not an 'enter' it stores the every key            
-        }
-    
-        //run a timeout of 200ms at the first read and clear everything
-        if(!reading) {
-            reading = true;
-            setTimeout(() => {
-                code = "";
-                reading = false;
-            }, 200);  //200 works fine for me but you can adjust it
-        }
-    });
-
 
     const fetchUsers = async ()=>{
         const {docs} = await getDocs(collection(firestore, "usuarios"));
@@ -48,42 +25,50 @@ export default function HerramientaEscaneada(){
         setUsers(usersArray)
     };
 
-    // const fetchTools = async (id)=>{
-    //     const docRef = doc(firestore, "herramientasInsumos", id)
-    //     getDoc(docRef)
-    //     .then((doc)=>{
-    //         console.log(doc)
-    //     })
-    // };
+    const fetchTools = async ()=>{
+        const {docs} = await getDocs(collection(firestore, "herramientasInsumos"));
+        const toolsArray = docs.map(tool =>({...tool.data()}))
+        setTools(toolsArray)
+    };
 
-    // const ScannedTools = () =>{
-    //     scanned.map((singleCode)=>{
-    //         fetchTools(singleCode).then(()=>{
-    //             console.log(herramientaTomada)
-    //             // return(
+    const handleScan = (data)=> setScanned((prevValue)=>[...prevValue,data])
+    
+    const handleSubmit = ()=> {
+    }
 
-    //             // )
-    //         })
-    //     })
-    // }
-
-
-    function handleSubmit(){
-        setScanned()
-        setHistorial((prevHistorial)=>{ return(
-            [ ...prevHistorial, 
-                {
-                    nombre: profesor
-                    // [
-                    //     //construir objeto y luego agregarlo al array con .push va a ser más fácil
-                    // ]   
-                }
-            ] 
-        )})
+    const ScannedTools = () =>{
+        return(
+            scanned.map((singleCode)=>{
+                return(
+                    allTools.map((singleTool)=>{
+                        if (singleTool.codigo === singleCode){
+                            return <ScannedTool 
+                            nombre = {singleTool.nombre}
+                            cantidad = {singleTool.cantidad}
+                            ubicacion = {singleTool.ubicacion}
+                            />
+                        }
+                    })
+                )  
+            })        
+        )    
+    }
+    
+    const ScannedTool = ({nombre, cantidad, ubicacion})=> {
+        return (
+            <div>
+                <h3>{'Producto: ' + nombre}</h3> 
+                <h4>{'Cantidad: '+ cantidad}</h4>
+                <h4>{'Ubicación: ' + ubicacion}</h4>
+                <br/>
+            </div>
+        )
     }
 
     return(
+        
         <div>
+            <BarcodeReader onScan={handleScan}/>
             {scanned ? 
             <div>
                 <select 
@@ -99,12 +84,8 @@ export default function HerramientaEscaneada(){
                     }
                 </select>
                 <br/>
-                <br/>
-                {/* <ScannedTools/> */}
-                {scanned}
-                <br/>
-                <br/>
-                <button onClick={handleSubmit}>Confirmar</button>
+                <ScannedTools/>
+                <button onClick={handleSubmit}>Confirmar selección</button>
             </div> 
             : 
             <div>

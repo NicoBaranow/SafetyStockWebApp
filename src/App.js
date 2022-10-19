@@ -17,6 +17,7 @@ import Historial from './Pages/Admin/historial';
 import Buscar from './Pages/search';
 import SingleToolPage from './Pages/singleProductPage'
 import NotAllowed from './Components/notAllowed';
+import TestPage from './Pages/tests'
 import './appStyle.css'
  
 
@@ -81,6 +82,9 @@ function App() {
             <Switch>
                 <Route path='/' component={()=>admin ? (<AdminHome name = {nombre} admin = {admin}/>):(<Home name = {nombre} admin = {admin}/>)}></Route>
                 <Route path='/login' component={()=>(<LoginPage/>)}></Route>
+
+                <Route path='/test' component={()=>(<TestPage/>)}></Route>
+
                 <Route path='/signup' component={()=>(<SignupPage />)}></Route>
                 <Route path='/buscar' component={()=>(<Buscar name = {nombre} admin = {admin}/>)}></Route>
                 {urlCoincide===true && <Route component={()=>(<SingleToolPage headerName = {nombre} admin = {admin} tool = {singleTool}/>)}></Route>}
