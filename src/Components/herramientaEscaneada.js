@@ -11,7 +11,6 @@ export default function HerramientaEscaneada(){
     const [users, setUsers] = useState([])
     const [historial, setHistorial] = useState([])
     const [allTools, setTools] = useState([])
-    const [cantidadTomada, setCantidad] = useState([])
     const [codigoHerramienta, setCodigoHeramienta] = useState([])
     
     useEffect(()=>{
@@ -36,6 +35,7 @@ export default function HerramientaEscaneada(){
     const handleSubmit = ()=> {
     }
 
+    
     const ScannedTools = () =>{
         return(
             scanned.map((singleCode)=>{
@@ -46,23 +46,35 @@ export default function HerramientaEscaneada(){
                             nombre = {singleTool.nombre}
                             cantidad = {singleTool.cantidad}
                             ubicacion = {singleTool.ubicacion}
+                            key = {singleTool.codigo}
                             />
                         }
                     })
-                )  
+                    )  
             })        
-        )    
-    }
-    
-    const ScannedTool = ({nombre, cantidad, ubicacion})=> {
-        return (
-            <div>
-                <h3>{'Producto: ' + nombre}</h3> 
-                <h4>{'Cantidad: '+ cantidad}</h4>
-                <h4>{'Ubicación: ' + ubicacion}</h4>
-                <br/>
-            </div>
-        )
+            )    
+        }
+        
+        const ScannedTool = ({nombre, cantidad, ubicacion})=> {
+            const [cantidadTomada,setCantidadTomada] = useState(1)
+            
+            const increaseCount = () => {if (cantidadTomada>=1) setCantidadTomada(cantidadTomada+1)}
+        
+            const decreaseCount = () => {if (cantidadTomada>1) setCantidadTomada(cantidadTomada-1)}
+        
+            return (
+                <div>
+                    <h3>{'Producto: '+ nombre}</h3> 
+                    <h4>{'Cantidad: '+ cantidad}</h4>
+                    <h4>{'Ubicación: '+ ubicacion}</h4>
+                    <br/>
+                    <div>
+                        <button onClick={increaseCount}>+</button>
+                        {cantidadTomada}
+                        <button onClick={decreaseCount}>-</button>
+                    </div>
+                </div>
+            )
     }
 
     return(
