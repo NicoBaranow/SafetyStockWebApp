@@ -1,6 +1,6 @@
 import {React, useState, useEffect} from "react"
 import { firestore } from '../firebase/credenciales';
-import { collection, getDocs, getDoc, doc  } from 'firebase/firestore';
+import { collection, getDocs, doc, updateDoc,  } from 'firebase/firestore';
 import BarcodeReader from 'react-barcode-reader'
 
 
@@ -9,14 +9,19 @@ export default function HerramientaEscaneada(){
     const [scanned, setScanned] = useState('')
     const [profesor, setProfesor] = useState()
     const [users, setUsers] = useState([])
-    const [historial, setHistorial] = useState([])
     const [allTools, setTools] = useState([])
-    const [codigoHerramienta, setCodigoHeramienta] = useState([])
+    const [herramientasTomadas,setHerramientasTomadas] = useState([])
     
     useEffect(()=>{
         fetchUsers()
         fetchTools()
     },[])
+
+    useEffect(()=>{
+        fetchUsers()
+        fetchTools()
+    },[scanned])
+
 
     const fetchUsers = async ()=>{
         const {docs} = await getDocs(collection(firestore, "usuarios"));
@@ -30,52 +35,68 @@ export default function HerramientaEscaneada(){
         setTools(toolsArray)
     };
 
-    const handleScan = (data)=> setScanned((prevValue)=>[...prevValue,data])
-    
-    const handleSubmit = ()=> {
+    const updateToolDoc = async (codigo,value) =>{
+        const docRef = doc(firestore, "herramientasInsumos", codigo);
+        await updateDoc(docRef, {
+            cantidadTomada: value
+        })
+        .then(()=>{
+            console.log("Edicion completa")
+        })
+        .catch(error=>{
+            console.log("Ha habido un error al cargar la informacion " + error)
+        })
     }
 
+    const handleScan = (data)=> {
+        setScanned((prevValue)=>[...prevValue,data])
+        ScannedTools()
+    }
     
+    const handleSubmit = ()=> {
+
+    }
+
+    {/* ScannedTools debería guarda las herramientas escaneadas en un state */}
+    {/* ScannedTool renderiza la herramienta tomada con las props que se le dan */}
+    {/* Tengo que guardar las herramietnas que se renderizan en ScannedTool en un state para poder saber cuales son y armar un historial de uso con ese state*/}
+
+
     const ScannedTools = () =>{
-        return(
             scanned.map((singleCode)=>{
-                return(
                     allTools.map((singleTool)=>{
                         if (singleTool.codigo === singleCode){
-                            return <ScannedTool 
-                            nombre = {singleTool.nombre}
-                            cantidad = {singleTool.cantidad}
-                            ubicacion = {singleTool.ubicacion}
-                            key = {singleTool.codigo}
-                            />
+                            setHerramientasTomadas((prevValue)=>[...prevValue,singleTool])
+                            console.log(herramientasTomadas)
                         }
                     })
-                    )  
             })        
-            )    
         }
         
-        const ScannedTool = ({nombre, cantidad, ubicacion})=> {
-            const [cantidadTomada,setCantidadTomada] = useState(1)
-            
-            const increaseCount = () => {if (cantidadTomada>=1) setCantidadTomada(cantidadTomada+1)}
-        
-            const decreaseCount = () => {if (cantidadTomada>1) setCantidadTomada(cantidadTomada-1)}
-        
+    const ScannedTool = ({nombre, cant})=> {
+        const [cantidadTomada,setCantidadTomada] = useState(cant)
+
+        const increaseCount = () => {if (cantidadTomada>=1) setCantidadTomada(cantidadTomada+1)}
+        const decreaseCount = () => {if (cantidadTomada>1) setCantidadTomada(cantidadTomada-1)}
+
+        herramientasTomadas.map((singleTool)=>{
             return (
                 <div>
-                    <h3>{'Producto: '+ nombre}</h3> 
-                    <h4>{'Cantidad: '+ cantidad}</h4>
-                    <h4>{'Ubicación: '+ ubicacion}</h4>
-                    <br/>
-                    <div>
-                        <button onClick={increaseCount}>+</button>
-                        {cantidadTomada}
+                    <h3>{'Herramienta: '+ singleTool.nombre}</h3> 
+                    <h4>
+                        Cantidad tomada:
                         <button onClick={decreaseCount}>-</button>
-                    </div>
+                        {cantidadTomada}
+                        <button onClick={increaseCount}>+</button>
+                    </h4>
+                    <button onClick={increaseCount}>Eliminar selección</button>
+                    <br/>
+                    <br/>
                 </div>
             )
+        })
     }
+
 
     return(
         
@@ -83,6 +104,7 @@ export default function HerramientaEscaneada(){
             <BarcodeReader onScan={handleScan}/>
             {scanned ? 
             <div>
+                <br/>
                 <select 
                     name="profesor" 
                     id="profesor" 
@@ -95,9 +117,11 @@ export default function HerramientaEscaneada(){
                         })
                     }
                 </select>
+                <ScannedTools/> 
                 <br/>
-                <ScannedTools/>
-                <button onClick={handleSubmit}>Confirmar selección</button>
+                <br/>
+                <br/>
+                <button onClick={handleSubmit}>Confirmar selección de herramientas</button>
             </div> 
             : 
             <div>
