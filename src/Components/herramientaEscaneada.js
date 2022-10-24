@@ -19,7 +19,13 @@ export default function HerramientaEscaneada(){
     },[])
 
     useEffect(()=>{
-        ScannedTools()
+        scanned.map((singleCode)=>{
+            allTools.map((singleTool)=>{
+                if (singleTool.codigo === singleCode){
+                    setHerramientasTomadas((prevValue)=>[...prevValue,singleTool])
+                }
+            })   
+        })        
     },[scanned])    
 
     const fetchUsers = async ()=>{
@@ -40,11 +46,18 @@ export default function HerramientaEscaneada(){
     })
     
     const handleSubmit = ()=> {
+        setHistorial()
     }
 
     const handleDelete = (toolCode)=> {
-        const index = scanned.indexOf(toolCode)
-        setScanned((prevValue)=>prevValue.splice(index,1))
+        var array = scanned
+        console.log('New Array to modify: ' + array)
+        var index = scanned.indexOf(toolCode)
+        console.log("Index del elemento a eliminar: " + index)
+        array.splice(index,1)
+        console.log("Array modificado: " + array)
+        setScanned(array)
+        console.log('Scanned state modificado es: '+ scanned)
     }
     
     const ScannedTool = ({tool}) => {
@@ -77,7 +90,6 @@ export default function HerramientaEscaneada(){
                 return(
                     allTools.map((singleTool)=>{
                         if (singleTool.codigo === singleCode){
-                            console.log(singleTool)
                             return <ScannedTool 
                             tool = {singleTool}
                             key = {singleTool.codigo}
