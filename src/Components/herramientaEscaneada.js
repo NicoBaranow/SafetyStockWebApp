@@ -15,10 +15,10 @@ export default function HerramientaEscaneada(){
     
     useEffect(()=>{
         fetchUsers()
+        fetchTools()
     },[])
 
     useEffect(()=>{
-        fetchTools()
         ScannedTools()
     },[scanned])    
 
@@ -34,45 +34,62 @@ export default function HerramientaEscaneada(){
         setTools(toolsArray)
     };
 
-    const handleScan = (data)=> setScanned((prevValue)=>[...prevValue,data])
+    const handleScan = (data)=> setScanned((prevValue)=>{
+        if(!prevValue.includes(data)) return [...prevValue,data]
+        else return [...prevValue]
+    })
     
     const handleSubmit = ()=> {
     }
 
-    const ScannedTools = () =>{
-        scanned.map((singleCode)=>{
-            allTools.map((singleTool)=>{
-                if (singleTool.codigo === singleCode){
-                    setHerramientasTomadas((prevValue)=>[...prevValue,singleTool])
-                }
-            })                    
-        })           
+    const handleDelete = (toolCode)=> {
+        const index = scanned.indexOf(toolCode)
+        setScanned((prevValue)=>prevValue.splice(index,1))
     }
-        
-    const ScannedTool = () => {
+    
+    const ScannedTool = ({tool}) => {
         const [cantidadTomada,setCantidadTomada] = useState(1)
         
         const increaseCount = () => {if (cantidadTomada>=1) setCantidadTomada(cantidadTomada+1)}
         const decreaseCount = () => {if (cantidadTomada>1) setCantidadTomada(cantidadTomada-1)}
         
-        herramientasTomadas.map((herramienta)=>{            
-            return(
+        return(
+            <div>
+                <h3>{'Producto: '+ tool.nombre}</h3> 
+                <h4>{'Cantidad: '+ tool.cantidad}</h4>
                 <div>
-                    <h3>{'Producto: '+ herramienta.nombre}</h3> 
-                    <h4>{'Cantidad: '+ herramienta.cantidad}</h4>
-                    <br/>
-                    <div>
-                        <button onClick={increaseCount}>+</button>
-                        {cantidadTomada}
-                        <button onClick={decreaseCount}>-</button>
-                    </div>
+                    <h4>{'Cantidad tomada: '}</h4>
+                    <button onClick={increaseCount}>+</button>
+                    {cantidadTomada}
+                    <button onClick={decreaseCount}>-</button>
                 </div>
+                <br/>
+                <button onClick={() => handleDelete(tool.codigo)}>Eliminar selección</button>
+                <br/>
+            </div>
             )
-        })
-    }
+            
+        }
 
-    return(
+    const ScannedTools = () =>{
+        return(
+            scanned.map((singleCode)=>{
+                return(
+                    allTools.map((singleTool)=>{
+                        if (singleTool.codigo === singleCode){
+                            console.log(singleTool)
+                            return <ScannedTool 
+                            tool = {singleTool}
+                            key = {singleTool.codigo}
+                            />
+                        }
+                    })
+                    )  
+            })        
+            )    
+    }
         
+    return(
         <div>
             <BarcodeReader onScan={handleScan}/>
             {scanned.length>0 ? 
@@ -90,7 +107,10 @@ export default function HerramientaEscaneada(){
                     }
                 </select>
                 <br/>
-                <ScannedTool/>
+                <ScannedTools/>
+                <br/>
+                <br/>
+                <br/>
                 <button onClick={handleSubmit}>Confirmar selección</button>
             </div> 
             : 
