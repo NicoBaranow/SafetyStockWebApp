@@ -125,7 +125,6 @@ export default function AgregarHerramienta(props){
                 <label>
                     Categoría
                 <select name="cat1" id="cat1" required = {true} onChange={(e)=>{setCat1(e.target.value)}}>
-                    <option value="none">Seleccione una catgoría</option>
                     <option value="herramientas">Herramientas</option>
                     <option value="electronica">Electronica</option>
                     <option value="electricidad">Electricidad</option>

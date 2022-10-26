@@ -1,29 +1,41 @@
 import { React, useState, useEffect, useRef } from 'react';
 import { firestore } from '../firebase/credenciales';
 import { doc, deleteDoc, getDocs, collection } from 'firebase/firestore'
-import Barcode from 'react-barcode';
-import ReactToPrint from "react-to-print";
 import styles from './verTodasHerramientas.module.css'
 
-export default function VerHerramientas(props){
+export default function Historial(props){
 
     const itemsRef = useRef([])
     const [herramientas, setHerramientas] = useState([{}])
+    const [historial,setHistorial] = useState([{}])
     
     const edicion = props.editar
     var filtroNombre = props.nombre
     if(filtroNombre === undefined) filtroNombre = ''
 
+    
     useEffect(()=>{
-        fetchTools()
-        itemsRef.current = itemsRef.current.slice(0, herramientas.length);
+        // fetchTools()
+        fetchHistorial()
     },[])
 
-    const fetchTools = async ()=>{
+    const fetchTools = async () => { 
         const {docs} = await getDocs(collection(firestore, "herramientasInsumos"));
         const toolsArray = docs.map(tool =>({...tool.data()}))
         setHerramientas(toolsArray)
     };
+
+
+
+    const fetchHistorial = async () => { 
+        const querySnapshot = await getDocs(collection(firestore,'historial'))
+        querySnapshot.forEach((doc) => {
+            // doc.data() is never undefined for query doc snapshots
+            console.log(doc.id, " => ", doc.data());
+          })
+    };
+    
+
 
     function handleDelete(uid){
         deleteDoc (doc(firestore,'herramientasInsumos',uid))
@@ -40,26 +52,8 @@ export default function VerHerramientas(props){
                 <p>Ubicación: {tool.ubicacion}</p>
                 <p>Cantidad: {tool.cantidad}</p>
                 <p>Cantidad en uso: {tool.cantidadTomada}</p>
-                {edicion && (
-                    <div>
-                        <button onClick = {()=>handleDelete(tool.codigo)}>Eliminar herramienta</button>
-                        <ReactToPrint
-                            trigger={() => (<button>Imprimir codigo de barras</button>)}
-                            content={() => {return itemsRef.current[index]}}
-                        />
-                        <div key={tool.codigo} className = {styles.barcode}>
-                            <Barcode 
-                                key={tool.codigo}
-                                ref={(el) => (itemsRef.current[index] = el)}
-                                value = {tool.codigo ? tool.codigo : ""}
-                            />
-                        </div>
-                    </div>
-                )}
-
             </div>
         )
-
     }
 
 
