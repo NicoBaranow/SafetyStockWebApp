@@ -30,7 +30,10 @@ export default function NavBar(){
             })
 
         try{
-            await setDoc(doc(firestore, `usuarios`, user.uid),usuario)   //carga los datos a firestore, al fichero de /usuarios/UID de profesor
+            await setDoc(doc(firestore, `usuarios`, user.uid),{
+                ...usuario,
+                id:user.uid
+            })   //carga los datos a firestore, al fichero de /usuarios/UID de profesor
             setLocation('/')
         }
         catch (error) {

@@ -13,7 +13,6 @@ export default function Historial(props){
     useEffect(()=>{
         fetchTools()
         fetchUsers()
-        fetchHistorial()
     },[])
 
     const fetchTools = async () => { 
@@ -24,21 +23,8 @@ export default function Historial(props){
 
     const fetchUsers = async () => { 
         const {docs} = await getDocs(collection(firestore, "usuarios"))
-        const usersArray = docs.map(user =>user.id)
+        const usersArray = docs.map(user =>({...user.data()}))
         setUsers(usersArray)
-    }
-    
-    const FetchUsersHistorial = (path) => {
-        const [docs, loading, error] = useCollectionData(path)
-        console.log(docs)
-    }
-
-    const path = collection(firestore, "historial", 'u101mlCunFP6MIq1S86gJSFRT403', "historial")
-    const [docs, loading, error] = useCollectionData(path)
-    console.log(docs)
-
-    const fetchHistorial = async () => {
-
     }
 
     function handleDelete(uid){
@@ -48,11 +34,29 @@ export default function Historial(props){
         })
     }
 
+    const UserHistorial = ({user}) => {
+        const path = collection(firestore, "historial", user, 'historial')
+        const [docs, loading, error] = useCollectionData(path)
+
+        return(
+            <div>
+                {docs?.map(doc=>{
+                    return(
+                        <div>
+                            a
+                            {doc.nombreHerramienta}
+                        </div>
+                    )
+                })}
+            </div>
+        )
+
+    }
 
     const Historial = () => {
-        return (
-            users.map(user=>{
-                FetchUsersHistorial(user)
+        return(
+            users.map(user=> {
+                return <UserHistorial key={user.id} user={user.id}/>
             })
         )
     }
