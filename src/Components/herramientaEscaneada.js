@@ -63,6 +63,12 @@ export default function HerramientaEscaneada(){
     
     const handleDelete = (toolCode)=> setScanned(scanned.filter(a => a !== toolCode))
     
+    var minutes = date.getMinutes()
+    var hours = date.getHours()
+    if(minutes<10) minutes = '0' + minutes
+    if(hours<10) hours = '0' + hours
+    const fecha = date.getDate()+"-"+(date.getMonth()+1)+"-"+ date.getFullYear()+" "+hours+":"+minutes+"h"
+
     const handleSubmit = ()=> {
         scanned.map((singleCode)=>{
             allTools.map((singleTool)=>{
@@ -73,7 +79,7 @@ export default function HerramientaEscaneada(){
                         ubicacion: singleTool.ubicacion,
                         cantidadTomada: cantidades[index].cantidadTomada,
                         codigo: singleTool.codigo,
-                        date: date.getDate()+"-"+(date.getMonth()+1)+"-"+ date.getFullYear()+" "+date.getHours()+"h:"+date.getMinutes()+"min"
+                        date: fecha
                     }])
                 }
             })   
