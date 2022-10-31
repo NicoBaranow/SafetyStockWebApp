@@ -1,21 +1,18 @@
 import { React, useState, useEffect, useRef } from 'react';
 import { firestore } from '../firebase/credenciales';
 import { doc, deleteDoc, getDocs, collection } from 'firebase/firestore'
+import { useCollectionData } from 'react-firebase-hooks/firestore'
 import styles from './verTodasHerramientas.module.css'
 
 export default function Historial(props){
 
-    const itemsRef = useRef([])
     const [herramientas, setHerramientas] = useState([{}])
+    const [users,setUsers] = useState([])
     const [historial,setHistorial] = useState([{}])
-    
-    const edicion = props.editar
-    var filtroNombre = props.nombre
-    if(filtroNombre === undefined) filtroNombre = ''
 
-    
     useEffect(()=>{
-        // fetchTools()
+        fetchTools()
+        fetchUsers()
         fetchHistorial()
     },[])
 
@@ -25,17 +22,24 @@ export default function Historial(props){
         setHerramientas(toolsArray)
     };
 
-
-
-    const fetchHistorial = async () => { 
-        const querySnapshot = await getDocs(collection(firestore,'historial'))
-        querySnapshot.forEach((doc) => {
-            // doc.data() is never undefined for query doc snapshots
-            console.log(doc.id, " => ", doc.data());
-          })
-    };
+    const fetchUsers = async () => { 
+        const {docs} = await getDocs(collection(firestore, "usuarios"))
+        const usersArray = docs.map(user =>user.id)
+        setUsers(usersArray)
+    }
     
+    const FetchUsersHistorial = (path) => {
+        const [docs, loading, error] = useCollectionData(path)
+        console.log(docs)
+    }
 
+    const path = collection(firestore, "historial", 'u101mlCunFP6MIq1S86gJSFRT403', "historial")
+    const [docs, loading, error] = useCollectionData(path)
+    console.log(docs)
+
+    const fetchHistorial = async () => {
+
+    }
 
     function handleDelete(uid){
         deleteDoc (doc(firestore,'herramientasInsumos',uid))
@@ -44,29 +48,16 @@ export default function Historial(props){
         })
     }
 
-    const Tool = ({ tool, index }) => {
-        if(tool.nombre.toLowerCase().includes(filtroNombre.toLowerCase())) return(
-            <div key={tool.codigo}>
-                <a href={tool.nombre.toLowerCase()} className={styles.toolLink}><h2>{tool.nombre}</h2></a>
-                <p>Categoría: {tool.cat1 +', '+ tool.cat2}</p>
-                <p>Ubicación: {tool.ubicacion}</p>
-                <p>Cantidad: {tool.cantidad}</p>
-                <p>Cantidad en uso: {tool.cantidadTomada}</p>
-            </div>
-        )
-    }
 
-
-    const Tools = () => {
+    const Historial = () => {
         return (
-            herramientas.map((item, index) =>{ 
-                if(item.codigo) {
-                    return item.nombre !== 'prueba' && <Tool key={item.codigo} tool={item} index={index} />
-                }})
+            users.map(user=>{
+                FetchUsersHistorial(user)
+            })
         )
     }
         
     return (
-        <Tools/>
+        <Historial/>
     )
 }

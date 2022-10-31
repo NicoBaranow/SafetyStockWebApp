@@ -1,6 +1,7 @@
 import { React, useState, useEffect, useRef } from 'react';
-import { firestore } from '../firebase/credenciales';
-import { doc, deleteDoc, getDocs, collection } from 'firebase/firestore'
+import { auth, firestore} from '../firebase/credenciales'
+import { onAuthStateChanged } from 'firebase/auth';
+import { doc, deleteDoc, getDocs, getDoc, collection } from 'firebase/firestore'
 import Barcode from 'react-barcode';
 import ReactToPrint from "react-to-print";
 import styles from './verTodasHerramientas.module.css'
@@ -9,6 +10,7 @@ export default function VerHerramientas(props){
 
     const itemsRef = useRef([])
     const [herramientas, setHerramientas] = useState([{}])
+    const [admin, setAdmin] = useState({})
     
     const edicion = props.editar
     var filtroNombre = props.nombre
@@ -18,6 +20,23 @@ export default function VerHerramientas(props){
         fetchTools()
         itemsRef.current = itemsRef.current.slice(0, herramientas.length);
     },[])
+
+    useEffect(()=>{
+        onAuthStateChanged(auth, (user)=>{
+            if (user){
+                getParams(user.uid).then((crudeParams)=> {
+                    setAdmin(crudeParams.admin)
+                })
+            }
+            else setAdmin({})
+        })
+    },[])
+
+    async function getParams(uid){
+        const docRef = doc(firestore, `usuarios/${uid}`)
+        const docSnap = getDoc(docRef)
+        return ((await docSnap).data())
+    }
 
     const fetchTools = async ()=>{
         const {docs} = await getDocs(collection(firestore, "herramientasInsumos"));
