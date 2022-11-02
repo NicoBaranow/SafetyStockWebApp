@@ -13,9 +13,9 @@ export default function AgregarHerramienta(props){
     const [nombre,setNombre] = useState('')
     const [ubicacion,setUbicacion] = useState('')
     const [codigo,setCodigo] = useState(props.barcode)
-    const [cantidad,setCantidad] = useState('')
-    const [cantidadMinima,setCantidadMinima] = useState('')
-    const [cantidadIdeal,setCantidadIdeal] = useState('')
+    const [cantidad,setCantidad] = useState()
+    const [cantidadMinima,setCantidadMinima] = useState()
+    const [cantidadIdeal,setCantidadIdeal] = useState()
     const [cat1,setCat1] = useState('')
     const [cat2,setCat2] = useState('')
     const [cat3,setCat3] = useState('')
@@ -87,7 +87,7 @@ export default function AgregarHerramienta(props){
                     type="number" 
                     id='cantidad'
                     required = {true}
-                    onChange={(e)=>{setCantidad(e.target.value)}}/>
+                    onChange={(e)=>{setCantidad(e.target.valueAsNumber)}}/>
                 </label>
                 <label>
                     Cantidad mínima
@@ -95,7 +95,7 @@ export default function AgregarHerramienta(props){
                     type="number" 
                     id='cantidadMinima'
                     required = {true}
-                    onChange={(e)=>{setCantidadMinima(e.target.value)}}/>
+                    onChange={(e)=>{setCantidadMinima(e.target.valueAsNumber)}}/>
                 </label>
                 <label>
                     Cantidad ideal
@@ -103,7 +103,7 @@ export default function AgregarHerramienta(props){
                     type="number" 
                     id='cantidad'
                     required = {true}
-                    onChange={(e)=>{setCantidadIdeal(e.target.value)}}/>
+                    onChange={(e)=>{setCantidadIdeal(e.target.valueAsNumber)}}/>
                 </label>
                 <label>
                     Ubicación

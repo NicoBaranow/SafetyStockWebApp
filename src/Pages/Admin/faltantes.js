@@ -11,17 +11,19 @@ export default function Faltantes(props){
     const [faltantes,setFaltantes] = useState([])
 
     useEffect(()=>{
-        const obtenerFaltantes = async ()=>{
-            const {docs} = await getDocs(collection(firestore, "herramientasInsumos"));
-            const faltantes = docs.map(singleTool =>({uid: singleTool.id, ...singleTool.data()}))
-            setFaltantes(faltantes)
-            };
-        
         obtenerFaltantes()
     },[])
+    
+    const obtenerFaltantes = async ()=>{
+        const {docs} = await getDocs(collection(firestore, "herramientasInsumos"));
+        const faltantes = docs.map(singleTool =>({uid: singleTool.id, ...singleTool.data()}))
+        setFaltantes(faltantes)
+        };
 
     const allFaltantes = faltantes.map(faltante=>{
-        if(faltante.cantidadIdeal < faltante.cantidad && faltante.cantidad!== ''){
+        console.log(faltante)
+        console.log(faltante.cantidad < faltante.cantidadIdeal)
+        if(faltante.cantidad < faltante.cantidadIdeal){
             return(
                 <div key = {faltante.codigo}>
                     <h2>{faltante.nombre}</h2>

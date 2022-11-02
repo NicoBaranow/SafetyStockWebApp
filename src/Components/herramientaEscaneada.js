@@ -111,13 +111,16 @@ export default function HerramientaEscaneada(){
                 <h4>{'Cantidad: '+ tool.cantidad}</h4>
                 <h4>{'Cantidad tomada actual: '+ tool.cantidadTomada}</h4>
                 <div>
-                    <h4>{'Cantidad tomada: '}</h4>
-                    <button onClick={increaseCount}>+</button>
-                    {cantidadTomada}
-                    <button onClick={decreaseCount}>-</button>
+                    <h4>
+                        {'Cantidad tomada: '}
+                        <button onClick={increaseCount}>+</button>
+                        {cantidadTomada}
+                        <button onClick={decreaseCount}>-</button>
+                    </h4>
                 </div>
                 <br/>
                 <button onClick={() => handleDelete(tool.codigo)}>Eliminar selección</button>
+                
                 <br/>
             </div>
             )

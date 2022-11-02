@@ -7,6 +7,7 @@ export default function VerHistorial(props){
         <div>
             <Header name = {props.name} admin = {props.admin}/>
             <h1>Historial de utilización de herramientas e insumos</h1>
+            <br></br>
             <Historial/>
         </div>
     )
