@@ -1,70 +1,29 @@
-# Getting Started with Create React App
+# Safety Stock 
+Safety stock es un sistema de control de stock adaptable a cualquier depósito. 
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Primeros pasos
 
-## Available Scripts
+Primero, dirigirse a [Safety Stock](https://safetystock.io/) para iniciar sesión o crear una cuenta nueva <br/><br/>
+Existen tres posbiles escenarios:
+- No iniciar sesión y ser invitado: solo podrá buscar herramientas y ver dónde se encuentran.
+- Iniciar sesión siendo no administrador: podrá buscar herramientas, ver qué herramientas tiene en uso y cuales usó a lo largo del tiempo.
+- Iniciar sesión siendo administrador: podrá buscar, agregar, eliminar, modificar e imprimir códigos de herramientas, administrar profesores, escanear códigos de barras, cargar y modificar historiales de uso y ver faltantes a comprar. <br/>
 
-In the project directory, you can run:
+## Crear usuario administrador
+Para crear un nuevo usuario con privilegios de administrador, se debe crear un usuario primero desde [Signup](https://safetystock.io/signup).  
+Una vez el usuario esté creado, dirigirse a Firebase, ingresar al proyecto de Safety Stock, ingresar al apartado de **Firestore Database**, buscar el campo de **Usuarios** y buscar el usuario a modificar. Una vez encontrado, se deberá modifical el parámetro ***admin*** y cambiarlo a verdadero.<br/><br/>
+![image](https://user-images.githubusercontent.com/70355656/205232609-549df1e2-b121-4f1f-9e5b-f3af6db1eff6.png)<br/><br/>
 
-### `npm start`
+## Agregar herramientas e insumos
+Para agregar herramientas e insumos, un administrador debe dirigirse a [Administrar herramientas](https://safetystock.io/herramientas).  
+Una vez allí, tendrá la posibilidad de completar los campos solicitados y precionar cargar. Una vez apretado el botón, la herramienta queda agregada.<br/><br/>
+![image](https://user-images.githubusercontent.com/70355656/205237370-eed950e3-7422-4ce1-9909-901e38279a12.png)<br/>
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Modificar herramientas o insumos
+Para modificar herramientas o insumos, debemos dirigirnos a la página del elemento a modificar. Para hacer esto debemos ir a [Administrar herramientas](https://safetystock.io/herramientas) o [Buscar herramientas](https://safetystock.io/buscar) y buscar el elemento en cuestion. Una vez encontrado, haremos click sobre el nombre, lo que nos llevará a la página del producto. Desde aquí, podemos ver en detalle toda la información de la herramienta y con el botón de **Editar herramienta**, se desplegará un menú de selección desde el cual podemos seleccionar el campo a modificar e ingresar su nuevo valor. <br/><br/>
+![image](https://user-images.githubusercontent.com/70355656/205239893-01831f23-fda5-42ab-8759-b3201a623536.png)<br/><br/>
+![image](https://user-images.githubusercontent.com/70355656/205240007-cf8847f0-7ffc-43e6-befd-db590a51ae71.png)<br/><br/>
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Imprimir códgios de barras o eliminar herramientas e insumos
+Para eliminar e imprimir códigos de herramientas e insumos, dirigirse a [Administrar herramientas](https://safetystock.io/herramientas). Una vez aquí, buscar la herramienta o insumo en cuestión y apretar los botones de **imprimir códgio de barras** o **Eliminar herramienta** según se desee.<br/><br/>
+![image](https://user-images.githubusercontent.com/70355656/205544060-b68c3b3f-1293-435f-be0e-4f74027c675f.png)
