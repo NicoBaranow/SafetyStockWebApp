@@ -1,0 +1,14 @@
+.input {
+    width: 10%;
+    border: 3px solid #00B4CC;
+    height: 16px;
+    border-radius: 5px;
+    outline: none; 
+    color: #9DBFAF;
+    font-size: 14px;
+    font-family: 'Roboto', sans-serif;
+}
+
+.input:focus{
+    color: black;
+}

@@ -78,6 +78,7 @@ export default function HerramientaEscaneada(){
                         nombreHerramienta: singleTool.nombre,
                         ubicacion: singleTool.ubicacion,
                         cantidadTomada: cantidades[index].cantidadTomada,
+                        cantidadTomadaTotal: cantidades[index].cantidadTomada,
                         codigo: singleTool.codigo,
                         date: fecha
                     }])
@@ -148,26 +149,28 @@ export default function HerramientaEscaneada(){
         <div>
             <BarcodeReader onScan={handleScan}/>
             {scanned.length>0 ? 
-            <div>
-                <select 
-                    name="profesor" 
-                    id="profesor" 
-                    required = {true} 
-                    value = {profesor} 
-                    onChange={(e)=>{setProfesor(e.target.value)}}>
-                    <option value="none">Seleccione un profesor</option>
-                    {users.map((user)=>{
-                        return <option value={user.uid} key={user.uid}>{user.nombre + ' ' + user.apellido}</option>
-                        })
-                    }
-                </select>
-                <br/>
-                <ScannedTools/>
-                <br/>
-                <br/>
-                <br/>
-                <button onClick={handleSubmit} value="Confirmar seleccion">Confirmar Selección</button>
-            </div> 
+                <div>
+                    <form>
+                        <select 
+                            name="profesor" 
+                            id="profesor" 
+                            required = {true} 
+                            value = {profesor} 
+                            onChange={(e)=>{setProfesor(e.target.value)}}>
+                            <option value="none">Seleccione un profesor</option>
+                            {users.map((user)=>{
+                                return <option value={user.uid} key={user.uid}>{user.nombre + ' ' + user.apellido}</option>
+                                })
+                            }
+                        </select>
+                        <br/>
+                        <ScannedTools/>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <input onClick={handleSubmit} type="submit" value="Confirmar seleccion"/>
+                    </form>
+                </div>
             : 
             <div>
                 <div>Escanee un código de barras</div>

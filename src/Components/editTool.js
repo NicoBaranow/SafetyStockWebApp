@@ -2,6 +2,7 @@ import {React, useState, useEffect} from "react"
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { firestore } from '../firebase/credenciales';
 import { useLocation } from 'wouter';
+import styles from './editTool.module.css'
 
 export default function EditTool(props){
 
@@ -55,7 +56,7 @@ console.log(toolInfo)
                                 name="editCategory" 
                                 onChange={(e)=>{setEditCategory(e.target.value)}}
                                 value = {editCategory}>
-                                <option value='none'>Seleccionar categria</option>
+                                <option value='none'>Seleccionar categoría</option>
                                 {Object.keys(toolInfo).map((e)=>{
                                     return(
                                         <option key={e} value={e}>
@@ -66,6 +67,7 @@ console.log(toolInfo)
                                             {e==='cat3' && 'Segunad Subcategoría'}
                                             {e==='cantidad' && 'Cantidad'}
                                             {e==='cantidadIdeal' && 'Cantidad Ideal'}
+                                            {e==='cantidadTomada' && 'Cantidad tomada'}
                                             {e==='cantidadMinima' && 'Cantidad mínima'}
                                             {e==='codigo' && 'Código'}
                                         </option>    
@@ -76,8 +78,9 @@ console.log(toolInfo)
                                 type = "text"
                                 required = {true} 
                                 onChange={(e)=>{setEditValue(e.target.value)}}
+                                className={styles.input}
                             />
-                            <input type="submit" value="Editar herramienta"/>
+                            <input type="submit" value="Confirmar edición"/>
                         </form>
                     </div>
                 )}

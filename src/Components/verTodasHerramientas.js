@@ -10,8 +10,8 @@ export default function VerHerramientas(props){
 
     const itemsRef = useRef([])
     const [herramientas, setHerramientas] = useState([{}])
-    const [admin, setAdmin] = useState({})
-    
+        
+    const admin = props.admin
     const edicion = props.editar
     var filtroNombre = props.nombre
     if(filtroNombre === undefined) filtroNombre = ''
@@ -20,23 +20,6 @@ export default function VerHerramientas(props){
         fetchTools()
         itemsRef.current = itemsRef.current.slice(0, herramientas.length);
     },[])
-
-    useEffect(()=>{
-        onAuthStateChanged(auth, (user)=>{
-            if (user){
-                getParams(user.uid).then((crudeParams)=> {
-                    setAdmin(crudeParams.admin)
-                })
-            }
-            else setAdmin({})
-        })
-    },[])
-
-    async function getParams(uid){
-        const docRef = doc(firestore, `usuarios/${uid}`)
-        const docSnap = getDoc(docRef)
-        return ((await docSnap).data())
-    }
 
     const fetchTools = async ()=>{
         const {docs} = await getDocs(collection(firestore, "herramientasInsumos"));
@@ -56,7 +39,7 @@ export default function VerHerramientas(props){
             <div key={tool.codigo}>
                 <a href={tool.nombre.toLowerCase()} className={styles.toolLink}><h2>{tool.nombre}</h2></a>
                 <p>Categoría: {tool.cat1 +', '+ tool.cat2}</p>
-                <p>Ubicación: {tool.ubicacion}</p>
+                {admin!==undefined && <p>Ubicación: {tool.ubicacion}</p>}
                 <p>Cantidad: {tool.cantidad}</p>
                 <p>Cantidad en uso: {tool.cantidadTomada}</p>
                 {edicion && (
@@ -75,7 +58,6 @@ export default function VerHerramientas(props){
                         </div>
                     </div>
                 )}
-
             </div>
         )
 

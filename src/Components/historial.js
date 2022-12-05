@@ -4,9 +4,10 @@ import { doc, getDocs, collection, query, where, updateDoc, increment } from 'fi
 import { useCollectionData } from 'react-firebase-hooks/firestore'
 import styles from './verTodasHerramientas.module.css'
 
-export default function Historial(props){
-
+export default function Historial({admin, userId}){
     const [users,setUsers] = useState([])
+
+    console.log()
 
     useEffect(()=>{
         fetchUsers()
@@ -49,7 +50,7 @@ export default function Historial(props){
 
         return(
             <h4>
-                {'Devolver: '}
+                {'Cantidad a devolver: '}
                 <button onClick={increaseCount}>+</button>
                 {cantidadADevolver}
                 <button onClick={decreaseCount}>-</button>
@@ -64,6 +65,7 @@ export default function Historial(props){
         
         const path = collection(firestore, "historial", user.id, 'historial')
         const [docs, loading] = useCollectionData(path)
+        const [allTools, allToolsLoading] = useCollectionData(path)
         const [available, setAvailable] = useState(false)
 
         docs?.forEach(doc=>{
@@ -74,26 +76,67 @@ export default function Historial(props){
             }
         })
 
-        if(!loading && docs.length>0) 
-        return(
-            <div>
-                <h2>Profesor: {user.nombre + ' ' + user.apellido}</h2>
-                {docs?.map(doc=>{
-                    console.log(doc)
+        if(!loading && docs.length>0){
+            if(admin) 
+            return(
+                <div>
+                    <h2>Profesor: {user.nombre + ' ' + user.apellido}</h2>
+                    {docs?.map(doc=>{
+                        return(
+                            <div>
+                                <h3>Herramienta tomada: {doc.nombreHerramienta}</h3>
+                                <h4>Cantidad tomada: {doc.cantidadTomadaTotal}</h4>
+                                <h4>Cantidad en uso: {doc.cantidadTomada}</h4>
+                                <h4>Fecha: {doc.date}</h4>
+                                <DevolucionParcial tool={doc} user = {user}/>
+                                <button onClick={()=>modificarCantidad(doc, user)}>Devolver todo</button>
+                            </div>
+                        )
+                    })}
+                    <br></br>
+                    <br></br>
+                </div>
+            )
+            
+            if(user.id === userId){
+                if(window.location.href.includes('/mi-historial'))
                     return(
                         <div>
-                            <h3>Herramienta en uso: {doc.nombreHerramienta}</h3>
-                            <h4>Cantidad en uso: {doc.cantidadTomada}</h4>
-                            <h4>Fecha: {doc.date}</h4>
-                            <DevolucionParcial tool={doc} user = {user}/>
-                            <button onClick={()=>modificarCantidad(doc, user)}>Devolver todo</button>
+                            {allTools?.map(doc=>{
+                                console.log(doc)
+                                return(
+                                    <div>
+                                        <h2>Herramienta: {doc.nombreHerramienta}</h2>
+                                        <h4>Ubicacion: {doc.ubicacion}</h4>
+                                        <h4>Cantidad tomada: {doc.cantidadTomadaTotal}</h4>
+                                        <h4>Fecha: {doc.date}</h4>
+                                    </div>
+                                )
+                            })}
+                            <br></br>
+                            <br></br>
                         </div>
                     )
-                })}
-                <br></br>
-                <br></br>
-            </div>
-        )
+                
+                if(window.location.href.includes('/mis-herramientas'))
+                    return(
+                        <div>
+                            {docs?.map(doc=>{
+                                return(
+                                    <div>
+                                        <h2>Herramienta tomada: {doc.nombreHerramienta}</h2>
+                                        <h4>Cantidad tomada: {doc.cantidadTomadaTotal}</h4>
+                                        <h4>Cantidad en uso: {doc.cantidadTomada}</h4>
+                                        <h4>Fecha: {doc.date}</h4>
+                                    </div>
+                                )
+                            })}
+                            <br></br>
+                            <br></br>
+                        </div>
+                    )
+            }
+        }
     }
 
     const Historial = () => {
@@ -104,7 +147,7 @@ export default function Historial(props){
         )
     }
         
-    return (
+    return (    
         <Historial/>
     )
 }

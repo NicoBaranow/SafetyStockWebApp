@@ -3,6 +3,7 @@ import { React, useState } from 'react';
 import { storage, firestore } from '../firebase/credenciales';
 import { doc, setDoc } from 'firebase/firestore'
 import { ref, uploadBytes } from 'firebase/storage'
+import BarcodeReader from 'react-barcode-reader'
 
 import { subcategorias } from '../data/data';
 
@@ -22,6 +23,7 @@ export default function AgregarHerramienta(props){
     const [imageUpload, setImageUpload] = useState(null)
     const [errorMessage, setErrorMessage] = useState('')
     const [successMessage, setSuccessMessage] = useState('')
+    const [scanned, setScanned] = useState([])
 
     const herraminetaInsumo = {
         nombre: nombre,
@@ -30,6 +32,7 @@ export default function AgregarHerramienta(props){
         cantidad:cantidad,
         cantidadMinima:cantidadMinima,
         cantidadIdeal:cantidadIdeal,
+        cantidadTomada:0,
         cat1:cat1,
         cat2:cat2,
         cat3:cat3
@@ -70,9 +73,21 @@ export default function AgregarHerramienta(props){
         })
     }
 
+    const handleScan = (data)=> setScanned(data)
+
     return(
         <div>
+            <BarcodeReader onScan={handleScan}/>
             <form autoComplete="off" id = 'formHerramienta' onSubmit={SubmitHandler}>
+                <label>
+                    Código de barras
+                    <input 
+                    type="text" 
+                    id='codigo'
+                    required = {true}
+                    value={scanned}
+                    onChange={(e)=>{setCodigo(e.target.value)}}/>
+                </label>
                 <label>
                     Nombre
                     <input 
@@ -112,15 +127,6 @@ export default function AgregarHerramienta(props){
                     id='text'
                     required = {true}
                     onChange={(e)=>{setUbicacion(e.target.value)}}/>
-                </label>
-                <label>
-                    Código de barras
-                    <input 
-                    type="text" 
-                    id='codigo'
-                    required = {true}
-                    // value={props.barcode}
-                    onChange={(e)=>{setCodigo(e.target.value)}}/>
                 </label>
                 <label>
                     Categoría

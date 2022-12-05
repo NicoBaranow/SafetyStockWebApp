@@ -18,6 +18,8 @@ import Buscar from './Pages/search';
 import SingleToolPage from './Pages/singleProductPage'
 import NotAllowed from './Components/notAllowed';
 import TestPage from './Pages/tests'
+import MisHerramientas from './Pages/misHerramientas'
+import MiHistorial from './Pages/miHistorial'
 import './appStyle.css'
  
 
@@ -64,7 +66,7 @@ function App() {
         return( 
             herramientas.map((item)=>{
                 if(item.nombre && urlCoincide!==true){
-                const nombre = item.nombre.toLowerCase().replaceAll(' ',"%20")
+                const nombre = item.nombre.trim().toLowerCase().replaceAll(' ',"%20")
                     if(window.location.href.indexOf(nombre)>-1) {
                         setUrlCoincide(true)
                         setSingleTool(item)
@@ -82,10 +84,10 @@ function App() {
             <Switch>
                 <Route path='/' component={()=>admin ? (<AdminHome name = {nombre} admin = {admin}/>):(<Home name = {nombre} admin = {admin}/>)}></Route>
                 <Route path='/login' component={()=>(<LoginPage/>)}></Route>
-
                 <Route path='/test' component={()=>(<TestPage/>)}></Route>
-
                 <Route path='/signup' component={()=>(<SignupPage />)}></Route>
+                <Route path='/mis-herramientas' component={()=>(<MisHerramientas name = {nombre} admin = {admin} userId = {userParams.id}/>)}></Route>
+                <Route path='/mi-historial' component={()=>(<MiHistorial name = {nombre} admin = {admin} userId = {userParams.id}/>)}></Route>
                 <Route path='/buscar' component={()=>(<Buscar name = {nombre} admin = {admin}/>)}></Route>
                 {urlCoincide===true && <Route component={()=>(<SingleToolPage headerName = {nombre} admin = {admin} tool = {singleTool}/>)}></Route>}
                 
@@ -105,7 +107,7 @@ function App() {
                 ></Route>
                 <Route 
                     path={'/historial'} 
-                    component={()=>admin ? (<Historial name = {nombre} admin = {admin}/>) : <NotAllowed />}
+                    component={()=>admin ? (<Historial name = {nombre} admin = {admin} userId = {userParams.id}/>) : <NotAllowed />}
                 ></Route>
                 
                 {urlCoincide===false && <Route >{()=>(<Page404/>)}</Route>}
