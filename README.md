@@ -27,3 +27,18 @@ Para modificar herramientas o insumos, debemos dirigirnos a la página del eleme
 ## Imprimir códgios de barras o eliminar herramientas e insumos
 Para eliminar e imprimir códigos de herramientas e insumos, dirigirse a [Administrar herramientas](https://safetystock.io/herramientas). Una vez aquí, buscar la herramienta o insumo en cuestión y apretar los botones de **imprimir códgio de barras** o **Eliminar herramienta** según se desee.<br/><br/>
 ![image](https://user-images.githubusercontent.com/70355656/205544060-b68c3b3f-1293-435f-be0e-4f74027c675f.png)
+
+## Administrar usuarios
+Desde la sección [Profesores](https://safetystock.io/profesores) se pueden visualizar todos los usuarios habilitados a usar el sistema. 
+Para eliminar uno de ellos, primero se debe presionar el botón **Eliminar usuario**.<br/><br/>
+![image](https://user-images.githubusercontent.com/70355656/205932300-5afc0f6f-f406-434d-aaca-2d6b4cb7a529.png)<br/><br/>
+
+Una vez hecho esto, se debe eliminar la información del usuario en Firebase. Para ello, dirigirse al proyecto de Safety Stock, ingresar al apartado de **Authentication**, buscar el usuario a eliminar, presionar los tres puntos de **Ver más opciones** que aparecen al poner el cursor sobre el nombre del usuario y seleccionar la opción de **Borrar cuenta**. Al hacer esto, un mensaje de confirmación aparecerá en pantalla, en el cual debemos presioanr **Borrar**. 
+![image](https://user-images.githubusercontent.com/70355656/205945849-7d12a9a9-d4d8-4b03-9382-2677a9bdd0bd.png)
+
+## Lista de faltantes
+Desde la sección de [Faltantes](https://safetystock.io/faltantes) se puede saber qué materiales o herramientas falta comprar. Estos se calculan en base al parámetro de cantidad mínima, cantidad ideal y cantidad actual, establecidos al momento de agregar una nueva herramienta. Para que un elemento deje de aparecer en esta lista, debe editarse el valor de **cantidad** cada vez que se agrega un insumo o herramienta al deposito.<br/><br/>
+![image](https://user-images.githubusercontent.com/70355656/205947948-38fd7289-d940-441d-be48-7bfb291537da.png)<br/><br/>
+
+## Utilización del lector de códigos de barras
+Para comenzar a utilizar el lector de códigos de barras, se debe encontrar la página abierta, en la sección de [Inicio](https://safetystock.io/). Una vez 
