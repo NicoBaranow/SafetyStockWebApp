@@ -23,7 +23,7 @@ export default function Faltantes(props){
     const allFaltantes = faltantes.map(faltante=>{
         console.log(faltante)
         console.log(faltante.cantidad < faltante.cantidadIdeal)
-        if(faltante.cantidad < faltante.cantidadIdeal){
+        if(faltante.cantidad < faltante.cantidadMinima){
             return(
                 <div key = {faltante.codigo}>
                     <h2>{faltante.nombre}</h2>

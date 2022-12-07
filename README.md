@@ -60,6 +60,27 @@ Desde la sección de [Mi historial](https://safetystock.io/mi-historial) se pued
 ![image](https://user-images.githubusercontent.com/70355656/205959845-5ca9c013-a1f6-4353-ab61-3375b78a2bee.png)<br/><br/>
 
 
+### Para los próximos desarrolladores
+## Cambios pendientes
+- Añadir el stock a la base de datos
+- Añadir seguridad con 2FA, envío de mails de confirmación para crear cuentas y permitir que solo personas específicas puedan crear cuentas
+- Mejorar el estilo de la página con la incorporación de módulos y CSS
+- Linkear [Safety Stock Access Control](https://github.com/NicoBaranow/SafetyStockAccessControl), haciendo que cada vez que un usuario ingresa al depósito con un tag RFID, sea este el único capaz de retirar herramientas e insumos, para evitar extracciones equivocas o maliciosas.
+- Mejorar la efectividad del historial de uso, buscando la manera de facilitar el proceso de devolución.
+- Incorporar cámaras y crear API para tomar el video de estas.
+- Añadir interfaz a [Safety Stock Access Control](https://github.com/NicoBaranow/SafetyStockAccessControl) para poder agregar y eliminar usuarios con rapidez.
 
+
+## Tecnología a utilizar
+Dado que el proyecto debe ser escalable, optamos por la utilización de Firebase como base de datos, ya que es mantenido por Google, posee una gran documentación y es fácil de comenzar a utilizar. Para el desarrollo de la web, optamos por React JS, dado que nos da la posibilidad de crear progressive web apps, estar al día con la última tecnología, posee una gran comunidad y hay mucha información y cursos al respecto. Para el desarrollo del control de acceso, utilizamos el chip ESP32 ya que cuenta con WIFI en caso de querer utilizarse a futuro y es programable en MicroPython, lo que aporta sencillez.
+En resumen:
+Los lenguajes y tecnologías a aprender para la continuación del proyecto son:
+- HTML
+- CSS
+- JavaScript
+- React Js
+- Node.js
+- TypeScript
+- Micropython 
 
 

@@ -2,6 +2,8 @@ import { React, useState, useEffect } from 'react';
 import { auth } from '../firebase/credenciales';
 import { signOut, onAuthStateChanged } from 'firebase/auth';
 import styles from './headerStyle.module.css'
+import openMenu from '../Images/openMenu50.png'
+import closeMenu from '../Images/closeMenu50.png'
 
 export default function NavBar(props){
 
@@ -45,7 +47,7 @@ export default function NavBar(props){
         )
     
         const UserHeader = (
-            <div className={styles.header}>
+            <header className={styles.header}>
                 <div className={styles.headerTitleLogo}>
                     <a href = '/' className={styles.headerTitle}> <h2>Safety Stock</h2></a>
                     {/* <img className='header--logo' src='' alt='Logo'></img> */}
@@ -62,7 +64,7 @@ export default function NavBar(props){
                     </li>
                 </ul>
                 <p className={styles.headerAccount} onClick={cerrarSesion}>{user && `Cerrar sesion`}</p>
-            </div>
+            </header>
         )
     
         const AdminHeader = (
@@ -100,28 +102,32 @@ export default function NavBar(props){
     const MobileHeader = () => {
 
         const InvitedHeaderMobile = (
-            <div className={styles.header}>
-            <div className={styles.headerTitleLogo}>
-                <a href = '/' className={styles.headerTitle}> <h2>Safety Stock</h2></a>
-                {/* <img className='header--logo' src='' alt='Logo'></img> */}
-            </div>
-            <ul className={styles.headerLinks}>
-                <li>
-                    <a href='buscar'>Buscar</a>
-                </li>
-            </ul>
-            <a className={styles.headerAccount} href='/login'>Iniciar sesión o regístrate</a>
-            <div className={styles.mobile} onClick={handleClick}>{mobile?"a" : "X"}</div>
-        </div>
-        )
-    
-        const UserHeaderMobile = (
-            <div className={styles.header}>
+            <header className={styles.header}>
                 <div className={styles.headerTitleLogo}>
                     <a href = '/' className={styles.headerTitle}> <h2>Safety Stock</h2></a>
                     {/* <img className='header--logo' src='' alt='Logo'></img> */}
                 </div>
-                <ul className={styles.headerLinks}>
+                <ul id={styles.navBar} 
+                className={mobile ? styles.headerLinks : styles.headerLinksHidden}>
+                    <li>
+                        <a href='buscar'>Buscar</a>
+                    </li>
+                    <li>
+                        <a className={styles.headerAccount} href='/login'>Iniciar sesión o regístrate</a>
+                    </li>
+                </ul>
+                <div className={styles.mobile} onClick={handleClick}>{mobile?"a" : "X"}</div>
+            </header>
+        )
+    
+        const UserHeaderMobile = (
+            <header className={styles.header}>
+                <div className={styles.headerTitleLogo}>
+                    <a href = '/' className={styles.headerTitle}> <h2>Safety Stock</h2></a>
+                    {/* <img className='header--logo' src='' alt='Logo'></img> */}
+                </div>
+                <ul id={styles.navBar} 
+                className={mobile ? styles.headerLinks : styles.headerLinksHidden}>
                     <li>
                         <a href='buscar'>Buscar</a>
                     </li>
@@ -136,7 +142,7 @@ export default function NavBar(props){
                     </li>
                 </ul>
                 <div className={styles.mobile} onClick={handleClick}>{mobile?"a" : "X"}</div>
-            </div>
+            </header>
             
         )
     
@@ -167,7 +173,8 @@ export default function NavBar(props){
                         <p className={styles.headerAccount} onClick={cerrarSesion}>{user && `Cerrar sesion`}</p>
                     </li>
                 </ul>
-                <div className={styles.mobile} onClick={handleClick}>{mobile?"a" : "X"}</div>
+                
+                <div className={styles.mobileIconContainer} onClick={handleClick}><img className={styles.mobileIcon} src={mobile? closeMenu : openMenu}></img></div>
             </header>
         )
 

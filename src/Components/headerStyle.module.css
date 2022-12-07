@@ -66,35 +66,51 @@
 
 @media screen and (max-width: 1024px){
 
-
+    .header{
+        padding-right: 10px;
+        
+    }
 
     .headerLinks{
         display: flex;
         flex-direction: column;
         align-items: flex-start;
         position: fixed;
-        top: 90px;
+        top: 60px;
         right: 0px;
-        width: 300px;
-        height: 500px;
-        padding: 40px 0 0 10px;
-        background-color: red;
+        left: 0px;
+        width: 100%;
+        height: 100%;
+        padding-top:10px ;
+        background-image: linear-gradient(0, #382464 0, #2f1e5f 50%, #26185a 100%);        z-index: 900;
+        border-radius: 15px;
+        z-index: 900;
+
     }
 
     .headerLinksHidden{
         display: none;
-        transition: background-color 1s ease-out;
-
     }
 
     .headerLinks li {
+        font-size: 1.5rem;
         display: list-item;
-        margin-bottom: 5px;
+        margin-top: 30px;
     }
 
-    .mobile{
+    .headerAccount{
+        margin: 0;
+    }
+
+    .mobileIconContainer{
         display: block;
         cursor: pointer;
+        height: 25px;
+        width: 25px;
+    }
+    .mobileIcon{
+        max-width: 100%;  
+        height: auto;  
     }
 
 }
