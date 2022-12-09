@@ -85,7 +85,7 @@ export default function AgregarHerramienta(props){
                     type="text" 
                     id='codigo'
                     required = {true}
-                    value={scanned}
+                    // value={scanned}
                     onChange={(e)=>{setCodigo(e.target.value)}}/>
                 </label>
                 <label>

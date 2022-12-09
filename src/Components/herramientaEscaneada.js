@@ -121,7 +121,6 @@ export default function HerramientaEscaneada(){
                 </div>
                 <br/>
                 <button onClick={() => handleDelete(tool.codigo)}>Eliminar selección</button>
-                
                 <br/>
             </div>
             )

@@ -116,7 +116,7 @@ export default function NavBar(props){
                         <a className={styles.headerAccount} href='/login'>Iniciar sesión o regístrate</a>
                     </li>
                 </ul>
-                <div className={styles.mobile} onClick={handleClick}>{mobile?"a" : "X"}</div>
+                <div className={styles.mobileIconContainer} onClick={handleClick}><img className={styles.mobileIcon} src={mobile? closeMenu : openMenu}></img></div>
             </header>
         )
     
@@ -141,7 +141,7 @@ export default function NavBar(props){
                         <p className={styles.headerAccount} onClick={cerrarSesion}>{user && `Cerrar sesion`}</p>
                     </li>
                 </ul>
-                <div className={styles.mobile} onClick={handleClick}>{mobile?"a" : "X"}</div>
+                <div className={styles.mobileIconContainer} onClick={handleClick}><img className={styles.mobileIcon} src={mobile? closeMenu : openMenu}></img></div>
             </header>
             
         )
@@ -173,7 +173,6 @@ export default function NavBar(props){
                         <p className={styles.headerAccount} onClick={cerrarSesion}>{user && `Cerrar sesion`}</p>
                     </li>
                 </ul>
-                
                 <div className={styles.mobileIconContainer} onClick={handleClick}><img className={styles.mobileIcon} src={mobile? closeMenu : openMenu}></img></div>
             </header>
         )

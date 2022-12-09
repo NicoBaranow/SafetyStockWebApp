@@ -1,30 +1,35 @@
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
+import { initializeApp } from "firebase/app"
 import { getAuth } from 'firebase/auth'
 import { getFirestore } from 'firebase/firestore'
 import { getStorage } from 'firebase/storage'
 
+/*
+// Please don´t touch here!!!
+// Just create a .env file in root folder and define variables there.
+// Sample .env file
+  REACT_APP_FIREBASE_API_KEY=""
+  REACT_APP_FIREBASE_AUTH_DOMAN=""
+  REACT_APP_FIREBASE_DATABASE_URL=""
+  REACT_APP_FIREBASE_PROJECT_ID=""
+  REACT_APP_FIREBASE_STORAGE_BUCKET=""
+  REACT_APP_FIREBASE_MESSAGING_SENDER_ID=""
+  REACT_APP_FIREBASE_APP_ID=""
+  REACT_APP_FIREBASE_MEASUREMENT_ID=""
+*/
 
-
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyAjSqpE4rTOlYYwBmz9lUfR-IV-Fy-0JD8",
-  authDomain: "safety-stock.firebaseapp.com",
-  databaseURL: "https://safety-stock-default-rtdb.firebaseio.com",
-  projectId: "safety-stock",
-  storageBucket: "safety-stock.appspot.com",
-  messagingSenderId: "669087626102",
-  appId: "1:669087626102:web:27d85135e9c48e56150057",
-  measurementId: "G-TNJ9NPZ6Y4"
-};
-
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAN,
+  databaseURL: process.env.REACT_APP_FIREBASE_DATABASE_URL,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_FIREBASE_APP_ID,
+  measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID
+}
 
 // Initialize Firebase
-export const firebaseApp = initializeApp(firebaseConfig);
+export const firebaseApp = initializeApp(firebaseConfig)
 export const auth = getAuth(firebaseApp)
 export const firestore = getFirestore(firebaseApp)
-export const storage = getStorage(firebaseApp)  
+export const storage = getStorage(firebaseApp)
