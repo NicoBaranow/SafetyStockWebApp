@@ -1,5 +1,5 @@
-# Safety Stock 
-Safety stock es un sistema de control de stock adaptable a cualquier depósito. 
+# Safety Stock web app
+Safety stock web app es un sistema de control de stock adaptable a cualquier depósito. 
 
 ## Primeros pasos
 
